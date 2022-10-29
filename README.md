@@ -1,3 +1,27 @@
+<h1 align="center">
+  Fullstack Bank Application
+  <br>
+</h1>
+<h4 align="center">Tiered (not so) Bad Bank Application</h4>
+
+<p align="center">
+<a href="https://validator.nu/?doc=https://jlulloaa.github.io/fullstack-bankapp">
+<!-- <img alt="W3C Validation" src="https://img.shields.io/w3c-validation/html?logo=w3c&style=plastic&targetUrl=https%3A%2F%2Fjlulloaa.github.io%2Fpacmen"> -->
+</a>
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/jlulloaa/fullstack-bankapp?style=plastic">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jlulloaa/fullstack-bankapp?color=yellow&style=plastic">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/jlulloaa/fullstack-bankapp?style=plastic">
+  <a href="https://github.com/jlulloaa/fullstack-bankapp/blob/main/LICENSE" target="_blank"> <img src="https://img.shields.io/github/license/jlulloaa/fullstack-bankapp?style=plastic"></a>
+
+</p>
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
