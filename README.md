@@ -27,7 +27,7 @@
 
 
 # Descrption
-This is the final project I am doing as part of the [full-stack web developer certificate](https://executive-ed.xpro.mit.edu/professional-certificate-coding) I am pursuing. Unlike the previous excercises, this is a full stack application with the front end developed in React () and MongoDB () all connected through a NodeJS server.
+This is the final project I am doing as part of the [full-stack web developer certificate](https://executive-ed.xpro.mit.edu/professional-certificate-coding) I am pursuing. Unlike the previous excercises, this is a real-life working full stack application, with the front end a refactoring of the original [BadBank app](http://jose-ulloabankingapplication.s3-website-us-east-1.amazonaws.com/) developed by myself as part of the 2nd project of this course. The back end is a work in progress and will be made up of a MongoDB to store the data and Node.js server (*Details to come as I progress with the work*) 
 
 
 Project Title: The title of your project.
@@ -39,7 +39,7 @@ Features: Your project’s features, and any future features you would like to i
 License: Details of under what type of license (e.g., MIT, Apache) your project is listed. If you don’t know, take a look at your package.json—it will have the default license that you chose when you created your project.
 
 
-
+# Additional Information
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
