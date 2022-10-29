@@ -11,7 +11,7 @@
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/jlulloaa/fullstack-bankapp?style=plastic">
   <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/jlulloaa/fullstack-bankapp?color=yellow&style=plastic">
   <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/jlulloaa/fullstack-bankapp?style=plastic">
-  <a href="https://github.com/jlulloaa/fullstack-bankapp/blob/main/LICENSE" target="_blank"> <img src="https://img.shields.io/github/license/jlulloaa/fullstack-bankapp?style=plastic"></a>
+  <a href="https://github.com/jlulloaa/fullstack-bankapp/blob/main/LICENSE.md" target="_blank"> <img src="https://img.shields.io/github/license/jlulloaa/fullstack-bankapp?style=plastic"></a>
 
 </p>
 
