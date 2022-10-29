@@ -25,7 +25,7 @@
   <a href="#license-information">License</a>
 </p>
 
-<img alt="Welcome Page Screenshot" src="howto/WelcomePageFrontEnd.png">
+<a href="http://jose-ulloabankingapplication.s3-website-us-east-1.amazonaws.com/" target="_blank"> <img alt="Welcome Page Screenshot" src="howto/WelcomePageFrontEnd.png"> </a>
 
 # Description
 *The reasons why this project exists, including the answers to pertinent questions such as whom does it help, why did you build it, and what business or personal problem does it solve*
