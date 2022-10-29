@@ -41,13 +41,15 @@ This is the final project I am doing as part of the [full-stack web developer ce
 * Technology used: Your technology stack, listed out. 
 * Features: Your project’s features, and any future features you would like to include.
 
+# Roadmap of future improvements
+...
 
 # Contributing
 Pull requests are welcome, and I'll be happy to chat about any improvement or extension that could be donde to this app.
 
 # Credits
 This software uses the following third party tools:
-
+* [Create React App](https://github.com/facebook/create-react-app) (see <a href="#getting-started-with-create-react-app">details below</a>)
 # License information
 This project is licensed under the terms of <a href="https://github.com/jlulloaa/fullstack-bankapp/blob/main/LICENSE" target="_blank"> MIT license </a>
 
