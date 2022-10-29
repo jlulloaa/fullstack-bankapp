@@ -51,7 +51,7 @@ This software uses the following third party tools:
 # License information
 This project is licensed under the terms of <a href="https://github.com/jlulloaa/fullstack-bankapp/blob/main/LICENSE" target="_blank"> MIT license </a>
 
-\hline
+---
 
 # Additional Information
 # Getting Started with Create React App
