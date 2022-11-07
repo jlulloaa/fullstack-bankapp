@@ -1,15 +1,22 @@
 {
-  "name": "fullstack-bankapp",
-  "version": "0.1.0",
+  "name": "badbankFE",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "bootstrap": "^5.2.2",
+    "bootswatch": "^5.2.2",
+    "formik": "^2.2.9",
     "jest": "^27.5.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
+    "react-export-table-to-excel": "^1.0.6",
+    "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
+    "react-tooltip": "^4.4.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -24,6 +31,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "http://localhost:3001",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -35,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.11"
   }
 }

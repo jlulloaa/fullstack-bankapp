@@ -33,11 +33,20 @@ import { Container } from 'react-bootstrap';
 // and this article: https://reactrouter.com/docs/en/v6/getting-started/concepts
 function App() {
 
+  // Test simple API to communicate front with back end (https://plainenglish.io/blog/create-a-full-stack-web-app-using-react-and-node-js):
+  // const [data, setData] = React.useState(null);
+  // React.useEffect(() => {
+  //   fetch('/api')
+  //   .then((res) => res.json())
+  //   .then((data) => setData(data.message));
+  // }, []);
+
   // Initialises the context variables that will define the user details:
   const initUser = [{name: '', email: '', password: '', history: [{deposit: '', withdraw: '', balance:0}]}];
 
   return (
     <Container className="App">
+    {/* <p> {! data ? "Loading..." : data } </p> */}
       <Router>
           <h1> 
             <img className="img-fluid float-left" src="./bank_logo.png"  width="8%" alt="Bank Logo Left"/>  

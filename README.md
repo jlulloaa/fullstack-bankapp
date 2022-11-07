@@ -25,7 +25,7 @@
   <a href="#license-information">License</a>
 </p>
 
-<a href="http://jose-ulloabankingapplication.s3-website-us-east-1.amazonaws.com/" target="_blank"> <img alt="Welcome Page Screenshot" src="howto/WelcomePageFrontEnd.png"> </a>
+<a href="http://jose-ulloabankingapplication.s3-website-us-east-1.amazonaws.com/" target="_blank"> <img alt="Welcome Page Screenshot" src="howto/media/WelcomePageFrontEnd.png"> </a>
 
 # Description
 *The reasons why this project exists, including the answers to pertinent questions such as whom does it help, why did you build it, and what business or personal problem does it solve*
@@ -40,6 +40,58 @@ This is the final project I am doing as part of the [full-stack web developer ce
 # Technology and Features
 * Technology used: Your technology stack, listed out. 
 * Features: Your project’s features, and any future features you would like to include.
+* Folder tree:
+```
+  .
+├── LICENSE.md
+├── README.md
+├── backend
+│   ├── index.js
+│   ├── mongo_test.js
+│   ├── node_modules
+│   ├── package-lock.json
+│   └── package.json
+├── frontend
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   ├── bank_logo.png
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src
+│       ├── App.js
+│       ├── App.test.js
+│       ├── Components
+│       │   ├── about.js
+│       │   ├── alldata.js
+│       │   ├── card.js
+│       │   ├── context.js
+│       │   ├── createaccount.js
+│       │   ├── deposit.js
+│       │   ├── footer.js
+│       │   ├── home.js
+│       │   ├── login.js
+│       │   ├── navbar.js
+│       │   ├── products.js
+│       │   ├── utils.js
+│       │   └── withdraw.js
+│       ├── index.js
+│       ├── reportWebVitals.js
+│       ├── setupTests.js
+│       ├── styles
+│       │   ├── App.css
+│       │   └── index.css
+│       └── utils
+└── howto
+    ├── folder_tree.txt
+    └── media
+        └── WelcomePageFrontEnd.png
+```
 
 # Roadmap of future improvements
 ...
