@@ -31,9 +31,8 @@ function welcome(req, res) {
  * @return {void} no return output
  */
 function createRecord(req, res) {
-    console.log(req);
     // Validate request
-    if (!req.body.name) {
+    if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
     }
@@ -45,7 +44,9 @@ function createRecord(req, res) {
             password: req.body.password
             // account_nro: Math.random()*1000
         }
-    );    
+    );
+    // Check the user doesn't exist - Where to do that? 
+
     // Save New User in the database:
     newUser
         .save()
@@ -66,7 +67,7 @@ function createRecord(req, res) {
  * 
  */
  function readOne(req, res) {
-    let dbquery = { _id: req.params.id} //ObjectId(req.params.id) }
+    let dbquery = { _id: req.body.id} //ObjectId(req.params.id) }
     UserSchema.findOne(dbquery)
         .then((doc) => {
             res.send(doc);

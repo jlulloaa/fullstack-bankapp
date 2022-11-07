@@ -19,14 +19,14 @@ Routers.get('/api', dbCRUD.welcome);
 // This section will help you get a list of all the s
 Routers.get('/api/readall', dbCRUD.readAll);
 
-// Create a new 
-Routers.post('/api/create/:name/:email/:password', dbCRUD.createRecord);
+// Create a new user (see UserSchema in schema.js)
+Routers.post('/api/create', dbCRUD.createRecord);
 
 // This section will help you get a single  by id
-Routers.get('/api/readone/:id', dbCRUD.readOne);
+Routers.get('/api/readone', dbCRUD.readOne);
 
 // Not yet implemented
-Routers.get('/api/delete', dbCRUD.delRecord);
-Routers.get('/api/update', dbCRUD.updateRecord);
+Routers.post('/api/delete', dbCRUD.delRecord);
+Routers.post('/api/update', dbCRUD.updateRecord);
 
 module.exports = Routers;
