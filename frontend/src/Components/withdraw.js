@@ -1,13 +1,15 @@
 import React from 'react';
 import { formatBalance, ToolTips } from './utils';
 import Card from './card';
-import { useCtx } from './context';
+import { Navigate } from 'react-router-dom';
+// import { useCtx } from './context';
+import { auth } from './loginbankingapp';
 
 function Withdraw() {
 
-    // const { users, setContext } = useCtx();
-    const users = useCtx();
-    const [balance, setBalance] = React.useState(users.at(-1).history.at(-1).balance);
+    // const { user, setContext } = useCtx();
+    const user = auth.currentUser; // useCtx();
+    const [balance, setBalance] = React.useState(user.at(-1).history.at(-1).balance);
     const [btndisabled, setBtnDisabled] = React.useState(true);
     const [withdrawValue, setWithdrawValue] = React.useState("");
     const [withdrawal, setWithdrawal] = React.useState(null);
@@ -34,18 +36,18 @@ function Withdraw() {
 
     const onClickHandler = () => {
         //  replicate the last element to populate it with the new transaction:
-        //  users.push({...users.at(-1)});
+        //  user.push({...user.at(-1)});
         let now = new Date();
         // This new functionality allows to get the last element (ES2022):
-        users.at(-1).history.push({
+        user.at(-1).history.push({
             deposit: '',
             withdraw: withdrawal,
             balance: balance - withdrawal,
             date: now.toLocaleDateString('en-GB'),
             time: now.toTimeString()
         });
-        // setContext(users);
-        setBalance(users.at(-1).history.at(-1).balance);
+        // setContext(user);
+        setBalance(user.at(-1).history.at(-1).balance);
         setWithdrawal(null);
         setWithdrawValue("");
         setBtnDisabled(true);
@@ -57,9 +59,11 @@ function Withdraw() {
             txtcolor="white"
             header="BadBank"
             title="WITHDRAWAL"
-            text={<>Hello{(users.at(-1).name === '') ? <>! </>: <>, {users.at(-1).name}! </>}Here you can withdraw funds from your account</>}
-            body = {(
-                <div>
+            text={<>Hello{(user.at(-1).name === '') ? <>! </>: <>, {user.at(-1).name}! </>}Here you can withdraw funds from your account</>}
+            body = {!user ? (
+                    <Navigate replace to='/login'/>
+                ) : (
+                    <div>
                     <label className="form-label mt-4">CURRENT BALANCE</label>
                     <div className="input-group mb-3" >
                         <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>

@@ -1,30 +1,103 @@
-import React from 'react';
+import React , { useEffect, useState } from 'react';
 import Card from './card';
-import { useCtx } from './context';
+// import { useCtx } from './context';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
+import { Link, useNavigate} from 'react-router-dom';
 import { ToolTips } from './utils';
+// import { getAuth, signInWithEmailAndPassword, AuthErrorCodes, onAuthStateChanged} from "firebase/auth";
+import { AuthErrorCodes } from "firebase/auth";
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from './loginbankingapp';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
+import { LoadingPage } from './utils';
 
 function Login() {
 
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    // const currState = useCtx();
+    // const [userLogin, setUserLogin] = useState(false);
+    const [btndisabled, setBtnDisabled] = useState(true);
+    const [user, loading, error] = useAuthState(auth);
+    // const navigate = useNavigate();
+
+    // useEffect(() => {
+
+    //   if (loading) {
+    //     // maybe trigger a loading screen
+    //     return;
+    //   }
+    //   if (user) {
+    //     // setUserLogin(true);
+    //     currState.isActive = true;
+    //     console.log(JSON.stringify(user));
+    //     // navigate("/accountsummary");
+    // } else {
+    //     setUserLogin(false);
+    //     currState.isActive = false;
+    // }
+    // }, [user, loading, currState]);
+
+    // Initialize Firebase Authentication and get a reference to the service
+    // const auth = getAuth(fbAuth);   
     // const { users, setContext } = useCtx();
-    const users = useCtx();
-    const [userLogin, setUserLogin] = React.useState(null);
-    const [btndisabled, setBtnDisabled] = React.useState(true);
+    // const currState = useCtx();
+    // let isActive = false
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //       // User is signed in, see docs for a list of available properties
+    //       // https://firebase.google.com/docs/reference/js/firebase.User
+    //       const uid = user.uid;
+    //       isActive = true;
+    //       // ...
+    //     } else {
+    //       isActive = false;
+    //       // User is signed out
+    //       // ...
+    //     }
+    //   });
+    
+    // console.log(`Current (initial) State: ${JSON.stringify(currState)}`);
+    const loginWithGoogle = async () => {
+        // currState.isActive = await signInWithGoogle();
+        await signInWithGoogle()};
 
     const formik = useFormik({
         initialValues: {
-            // Take the last element as the reference
-            email: users.at(-1).email,
-            password: users.at(-1).password,
+            email: "", //currState.user.email,
+            password: "", // currState.user.password,
         },
+        onSubmit: async (values, {resetForm}) => {
+            await logInWithEmailAndPassword(values.email, values.password);
+            
+                // .then( (userCredentials) => {
+                //     // Signed in
+                //     const user = userCredentials.user;
+                //     console.log(`User local variable: ${JSON.stringify(user)}`);
+                //     console.log(`Values upper variable: ${JSON.stringify(values)}`);
+                //     console.log(`Local userCredential: ${JSON.stringify(userCredentials)}`);
 
-        onSubmit: (values, {resetForm}) => {
-            alert('Login successfully', null, 2);
-            setUserLogin(true);
-            resetForm({values:''});
-            setBtnDisabled(true);
+                //     // alert(`User ${user.email} logged in successfully`)
+                //     // currState.user.email = values.email;
+                //     // currState.isActive=true;
+                //     setUserLogin(true);
+                //     resetForm({values:''});
+                //     setBtnDisabled(true);
+                //     // console.log(`Current State: ${JSON.stringify(currState)}`);
+                //     // Shall call the backend with the login details to retrieve the user information ...
+                // })
+                // .catch( (error) => {
+                //     if (error.code === AuthErrorCodes.USER_DELETED) {
+                //         alert(`User ${values.email} not registered`)
+                //     } else if (error.code === AuthErrorCodes.INVALID_PASSWORD) {
+                //         alert('Incorrect password');
+                //     }
+                //     setUserLogin(false);
+                //     console.log(error.message);
+                // })
+            // console.log(currState.user);
+            // setIsLoading(false);
         },
         validate,
     });
@@ -40,19 +113,20 @@ function Login() {
             errors.email = 'Email should be in the correct format';
             disableBtn = true;
             // Adding another branch, check whether email is in users
-        } else {
+        } else {            
             // Check whether the email is in the users list (create a simple check function)
-            var findEmailPos = users.findIndex(item => item.email === values.email);
-            console.log(findEmailPos);
-            if (findEmailPos < 0 ) {
-                errors.email = 'Email is not registered, please create an account first'
-                disableBtn = true;
-            } else {
-                // Swap the last element by the one selected by the email:
-                console.log(users[findEmailPos]);
-                [users[findEmailPos], users[users.length-1]] = [users[users.length-1], users[findEmailPos]];
-                console.log(users);
-            }
+            // When a backend is enabled, this check will happen there, so this is not used
+            // var findEmailPos = users.findIndex(item => item.email === values.email);
+            // console.log(findEmailPos);
+            // if (findEmailPos < 0 ) {
+            //     errors.email = 'Email is not registered, please create an account first'
+            //     disableBtn = true;
+            // } else {
+            //     // Swap the last element by the one selected by the email:
+            //     console.log(users[findEmailPos]);
+            //     [users[findEmailPos], users[users.length-1]] = [users[users.length-1], users[findEmailPos]];
+            //     console.log(users);
+            // }
         }; 
       
         if (!values.password) {
@@ -75,17 +149,31 @@ function Login() {
             header="BadBank"
             title="ACCESS YOUR ACCOUNT"
             text="Access your restricted area to manage your account"
-            body={userLogin ? (
-                <Navigate to="/deposit" ></Navigate>
+            body={user ? (
+                <Navigate to="/accountsummary" >
+                </Navigate>
                 ) : (
+                <>
+                { loading ? <LoadingPage /> : <></>}
                 <form onSubmit={formik.handleSubmit}>
                     Email address<br/>
                     <input type="input" className="form-control" id="email" placeholder="Enter email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} autoComplete="off"/> {formik.touched.email && formik.errors.email ? (<div id="emailError" style={{color:'red'}}>{formik.errors.email}</div>) : null}<br/>
                     Password<br/>
-                    <input type="password" autoComplete="current-password" className="form-control" id="password" placeholder="Enter password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>{formik.touched.password && formik.errors.password ? (<div id="pswError" style={{color: 'red'}}autoComplete="off">{formik.errors.password}</div>) : null}<br/>
+                    <input type="password" autoComplete="off" className="form-control" id="password" placeholder="Enter password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>{formik.touched.password && formik.errors.password ? (<div id="pswError" style={{color: 'red'}}autoComplete="off">{formik.errors.password}</div>) : null}<br/>
                     <button data-tip data-for="existAccTip" type="submit" className="btn btn-success" disabled={btndisabled}> Login</button>
                     <ToolTips></ToolTips>
-                </form> )
+                </form> 
+                <button className="login__btn login__google" onClick={loginWithGoogle}>
+                    Login with Google
+                </button>
+                <div>
+                    <Link to="/reset">Forgot Password</Link>
+                </div>
+                <div>
+                    Don't have an account? <Link to="/createaccount">Register</Link> now.
+                </div>
+                </>
+                )
             }
         />
     );

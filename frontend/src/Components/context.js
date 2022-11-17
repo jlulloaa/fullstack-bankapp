@@ -22,6 +22,7 @@ import React from 'react';
 //   export { useCtx };
 
 const UserContext = React.createContext();
+// const ActiveUserContext = React.createContext();
 
 function useCtx() {
     const users = React.useContext(UserContext)
@@ -30,6 +31,7 @@ function useCtx() {
     }
     return users;
   };
+
 
   export default UserContext;
   export { useCtx };

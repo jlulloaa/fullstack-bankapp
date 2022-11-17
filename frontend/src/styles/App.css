@@ -57,3 +57,10 @@ h1 {
 .table-wrapper-scroll-y {
   display: block;
   }
+
+.inactive{
+  display: none;
+  }
+.active {
+  display:block;
+}  

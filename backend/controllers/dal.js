@@ -32,6 +32,7 @@ function welcome(req, res) {
  */
 function createRecord(req, res) {
     // Validate request
+    console.log(req.body);
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
@@ -45,8 +46,10 @@ function createRecord(req, res) {
             // account_nro: Math.random()*1000
         }
     );
-    // Check the user doesn't exist - Where to do that? 
-
+    // Check the user doesn't exist:
+    // Make a query using graphQL to get only emails from registered users.
+    // Check the newUser.email is not in that list. If it so, then issues an error
+    
     // Save New User in the database:
     newUser
         .save()

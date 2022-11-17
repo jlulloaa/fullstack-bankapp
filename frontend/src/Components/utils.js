@@ -1,5 +1,6 @@
 import ReactTooltip from "react-tooltip";
 import { useEffect } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 
 // Language setting taken from https://codeutility.org/javascript-how-can-i-convert-google-translate-dropdown-into-language-button-i-am-using-google_translate_element-in-react-js-stack-overflow/ 
 const LanguageChange = () => {
@@ -51,6 +52,7 @@ const ToolTips = () => {
         createAccTip: <>Add a new <br/> account</>,
         startTip: "Get started",
         existAccTip: <>Access your <br/> account</>,
+        logoutTip: <>Logout</>,
         newAccTip: "Click to add account",
         depositTip: <>Add funds <br/> to your account</>,
         depositClickTip: "Click to deposit",
@@ -82,4 +84,13 @@ const ToolTips = () => {
 };
 
 
-export {formatBalance, ToolTips, LanguageChange};
+const LoadingPage = () => {
+  return (
+    <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
+  );
+}
+
+
+export {formatBalance, ToolTips, LanguageChange, LoadingPage};
