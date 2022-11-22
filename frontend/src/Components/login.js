@@ -1,12 +1,12 @@
-import React , { useEffect, useState } from 'react';
+import React , { useState } from 'react';
 import Card from './card';
 // import { useCtx } from './context';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ToolTips } from './utils';
 // import { getAuth, signInWithEmailAndPassword, AuthErrorCodes, onAuthStateChanged} from "firebase/auth";
-import { AuthErrorCodes } from "firebase/auth";
+// import { AuthErrorCodes } from "firebase/auth";
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -19,7 +19,7 @@ function Login() {
     // const currState = useCtx();
     // const [userLogin, setUserLogin] = useState(false);
     const [btndisabled, setBtnDisabled] = useState(true);
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     // const navigate = useNavigate();
 
     // useEffect(() => {

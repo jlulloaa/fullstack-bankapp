@@ -1,7 +1,7 @@
 /** middleware.js
  * Set of functions to transfer data between the front and back end
  */
- import { auth, logOut, removeUser } from '../Components/fir-login';
+ import { logOut, removeUser } from '../Components/fir-login';
 
 // Create another function to create the user in the backend, keep things separated
 import axios from 'axios';

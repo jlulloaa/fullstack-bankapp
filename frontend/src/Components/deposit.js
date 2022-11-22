@@ -13,7 +13,7 @@ function Deposit() {
     // const { user, setContext } = useCtx();
     // const user = auth.currentUser; // useCtx();
 
-    const [user, loading, error] = useAuthState(auth);
+    const [user,] = useAuthState(auth);
     // Get user latest balance (main assumption is the latest transaction has the most up to date balance)
     const [fetchingdata, setFetchingdata] = useState(false);
 

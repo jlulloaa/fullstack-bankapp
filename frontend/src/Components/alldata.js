@@ -15,7 +15,7 @@ function AllData() {
     const [entries, setEntries] = useState();
     const [fetching, setFetching] = useState(false);
 
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
     // const fetchEntries = async (user) => {
     //     console.log(`Sending user ${JSON.stringify(user)} to backend`);

@@ -13,7 +13,7 @@ function AccountSummary() {
     // const currState = useCtx();
     
     // console.log(`Current user AUTH: ${JSON.stringify(auth.currentUser)}`);
-    const [user, loading, error] = useAuthState(auth);
+    const [user,] = useAuthState(auth);
     const GreetingTxt = `Hello${ user ? ', ' + user.displayName:' '}!, welcome to BadBank`;
     
     if (user) {

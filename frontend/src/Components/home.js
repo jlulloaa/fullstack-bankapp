@@ -11,7 +11,7 @@ import { LoadingPage } from './utils';
 
 function Home() {
 
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     // const currUser = useCtx();
     // console.log(`Home Page: ${JSON.stringify(currUser.user)}`);
     // console.log(`Home Page: ${JSON.stringify(user)}`);

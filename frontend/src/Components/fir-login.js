@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection, query, getDocs, where } from "firebase/firestore";
+// import { getFirestore, addDoc, collection, query, getDocs, where } from "firebase/firestore";
 // Enable add/read documents to/from Cloud Firestore (users)
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 
 // Following the tutorial here to set up firebase and manage persistence:
 // https://blog.logrocket.com/user-authentication-firebase-react-apps/
@@ -17,7 +17,7 @@ import { GoogleAuthProvider, getAuth, deleteUser, // updateProfile,
 
 import { postNewUser } from '../services/middleware';
  // import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes} from "firebase/auth";
-import { AuthErrorCodes, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
