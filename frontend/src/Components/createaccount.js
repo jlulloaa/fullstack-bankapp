@@ -6,99 +6,33 @@ import { Navigate } from 'react-router';
 import { ToolTips } from './utils';
 import { Link } from 'react-router-dom';
 // import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes} from "firebase/auth";
-import { AuthErrorCodes } from "firebase/auth";
-import { auth, registerWithEmailAndPassword, signInWithGoogle } from './loginbankingapp';
+// import { AuthErrorCodes, onAuthStateChanged,updateProfile } from "firebase/auth";
+import { auth, registerWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { LoadingPage } from './utils';
-
-// Create another function to create the user in the backend, keep things separated
-// import axios from 'axios';
+import { postNewUser } from '../services/middleware';
 
 function CreateAccount() {
    
-    // const [userLogin, setUserLogin] = React.useState(false);
     const [btndisabled, setBtnDisabled] = React.useState(true);
     const [user, loading, error] = useAuthState(auth);
-    // const currState = useCtx();
-
-    // const url = `${process.env.REACT_APP_API_URL}/create`;
-
-    // const [user, loading, error] = useAuthState(auth);
-    // useEffect(() => {
-    //     if (user){
-    //         // history.replace("/dashboard");
-    //         // setAccess(true);
-    //         currState.isActive=true;
-    //         console.log(JSON.stringify(user));
-    //     } else {
-    //         setUserLogin(false);
-    //         currState.isActive = false;
-    //     }
-    //     }, [user, loading, currState]);
-        
+    
+    const loginWithGoogle = async () => {
+        await signInWithGoogle();
+    };
+    const registerNewUser = async (userData) => {
+        await registerWithEmailAndPassword(userData.name, userData.email, userData.password);
+    };
+    
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
             name: '',
         },
-        onSubmit: async (values, {resetForm}) => {
-            // let now = new Date();
-            // Move the alert inside the fetch/axios as part of the response
-            // alert('Account created successfully', null, 2);
-            // const newUser = {
-            //     name: values.name, 
-            //     email: values.email, 
-            //     password: values.password,
-            //     history: [{
-            //         withdraw: '',
-            //         deposit: '',
-            //         date: now.toLocaleDateString('en-GB'),
-            //         time: now.toTimeString(),
-            //         balance: 1000
-            //     }]
-            // };
-            // Send data to Firebase to handle account creation (here is checks for email existence)    
-            await registerWithEmailAndPassword(values.name, values.email, values.password)
-
-            // setUserLogin(true);
-            // if (currState.isActive.error) {
-                // console.log(res.error);
-                // currState.isActive = false;
-                // setUserLogin(false);
-            // };
-                // .then((userCredentials) => {
-                //     // Signed in 
-                //     const user = userCredentials.user;
-                //     console.log(`User local variable: ${JSON.stringify(user)}`);
-                //     console.log(`NewUser upper variable: ${JSON.stringify(newUser)}`);
-                //     console.log(`Local userCredential: ${JSON.stringify(userCredentials)}`);
-                //     setUserLogin(true);
-                //     resetForm({values: ''});
-                //     setBtnDisabled(true);
-
-                //     // call backend create user...
-                //     // axios
-                //     // .post(url, userCredentials)
-                //     // .then(() => {
-                //     //     console.log('New Account Created');
-                //     //     alert('Account created successfully', null, 2);
-                //     //     setAccess(true);
-                //     //     resetForm({values:''});
-                //     //     // isActive = true;
-                //     // })
-                //     // .catch(err => {
-                //     //   console.error(err);
-                //     // });
-                // })
-                // .catch((error) => {
-                //     if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
-                //         alert(`Email ${values.email} is already in use`);
-                //     }
-                //     console.log(error.message);
-                //     // ..
-                // });
-                         
+        onSubmit: (values, {resetForm}) => {
+            // Send data to Firebase to handle account creation (here is checks for email existence)
+            registerNewUser(values);                        
         },
         validate,
     });
@@ -144,8 +78,8 @@ function CreateAccount() {
             header="BadBank"
             title="CREATE A NEW ACCOUNT"
             text= "Register here to start enjoying the benefits of BadBank" 
-            body={auth.currentUser ? (
-                <Navigate to="/accountsummary"></Navigate>
+            body={user ? (
+                <Navigate replace to="/accountsummary"></Navigate>
                 ) : (
                 <>
                     { loading ? <LoadingPage /> : <></>}
@@ -162,7 +96,7 @@ function CreateAccount() {
                         <button data-tip data-for="newAccTip" type="submit" className="btn btn-success" disabled={btndisabled}> Create Account</button>
                         <ToolTips></ToolTips>
                     </form>
-                    <button className="register__btn register__google" onClick={signInWithGoogle}>
+                    <button className="register__btn register__google" onClick={loginWithGoogle}>
                         Register with Google
                     </button>
                     <div>

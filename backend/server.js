@@ -5,6 +5,18 @@
 const express = require('express');
 const cors    = require('cors');
 
+// Let's try firebase for admin the backend as well (see https://dev.to/bbarbour/creating-a-mern-stack-app-that-uses-firebase-authentication-part-one-31a7 and https://firebase.google.com/docs/admin/setup)
+const admin = require('firebase-admin');
+const serviceAccount = require('./config/fir-env.json');
+
+const { initializeApp, applicationDefault } = require('firebase-admin/app');
+const firebase = initializeApp({
+        // credential: applicationDefault(),
+        credential: admin.credential.cert(serviceAccount)
+    });
+
+const decodeIDToken = require('./authenticate/authenticate');
+
 // Following the MERN tutorial at https://www.mongodb.com/languages/mern-stack-tutorial include dotenv to allow using environment variables
 require('dotenv').config({path: './config/config.env'});
 const port = process.env.PORT || 3001;
@@ -33,4 +45,6 @@ app.listen(port, () => {
 
 // Load the routes
 app.use(require('./routes/routes'));
+app.use(require('./routes/users'));
 
+module.export = { firebase };

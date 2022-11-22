@@ -1,19 +1,40 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { Navigate } from 'react-router-dom';
 import { formatBalance, ToolTips } from './utils';
 import Card from './card';
-import { Navigate } from 'react-router-dom';
 // import { useCtx } from './context';
-import { auth } from './loginbankingapp';
+import { auth } from './fir-login';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import {getBankingTransactions, postNewTransaction} from '../services/middleware';
+import { LoadingPage } from './utils';
 
 function Withdraw() {
 
     // const { user, setContext } = useCtx();
-    const user = auth.currentUser; // useCtx();
-    const [balance, setBalance] = React.useState(user.at(-1).history.at(-1).balance);
-    const [btndisabled, setBtnDisabled] = React.useState(true);
-    const [withdrawValue, setWithdrawValue] = React.useState("");
-    const [withdrawal, setWithdrawal] = React.useState(null);
+    // const user = auth.currentUser; // useCtx();
+
+    const [user, loading, error] = useAuthState(auth);
+
+    const [fetchingdata, setFetchingdata] = useState(false);
+    const [balance, setBalance] = useState(); //user.at(-1).history.at(-1).balance);
+    const [btndisabled, setBtnDisabled] = useState(true);
+    const [withdrawValue, setWithdrawValue] = useState("");
+    const [withdrawal, setWithdrawal] = useState(null);
  
+    useEffect(() => {
+        const getBalance = async () => {
+            setFetchingdata(true);
+            const currBalance = await getBankingTransactions(user);
+            setBalance(currBalance);
+        }
+        getBalance();
+        setFetchingdata(false);
+    }, [user]);
+
+    if (balance === undefined) {
+        setBalance(null);
+    }
+
     const onChangeHandler = (e)=>{
         e.preventDefault();
         setWithdrawValue(e.target.value);
@@ -38,16 +59,27 @@ function Withdraw() {
         //  replicate the last element to populate it with the new transaction:
         //  user.push({...user.at(-1)});
         let now = new Date();
-        // This new functionality allows to get the last element (ES2022):
-        user.at(-1).history.push({
-            deposit: '',
-            withdraw: withdrawal,
-            balance: balance - withdrawal,
-            date: now.toLocaleDateString('en-GB'),
-            time: now.toTimeString()
-        });
+        const new_transaction = { 
+            user: user,
+            transact_type: 'withdrawal',
+            transact_amount: withdrawal,
+            updated_balance: balance - withdrawal,
+            timestamp: now,
+        }
+        postNewTransaction(new_transaction);
+        setBalance(balance - withdrawal);
+
+
+        // // This new functionality allows to get the last element (ES2022):
+        // user.at(-1).history.push({
+        //     deposit: '',
+        //     withdraw: withdrawal,
+        //     balance: balance - withdrawal,
+        //     date: now.toLocaleDateString('en-GB'),
+        //     time: now.toTimeString()
+        // });
         // setContext(user);
-        setBalance(user.at(-1).history.at(-1).balance);
+        // setBalance(user.at(-1).history.at(-1).balance);
         setWithdrawal(null);
         setWithdrawValue("");
         setBtnDisabled(true);
@@ -59,11 +91,11 @@ function Withdraw() {
             txtcolor="white"
             header="BadBank"
             title="WITHDRAWAL"
-            text={<>Hello{(user.at(-1).name === '') ? <>! </>: <>, {user.at(-1).name}! </>}Here you can withdraw funds from your account</>}
+            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}Here you can withdraw funds from your account</>}
             body = {!user ? (
                     <Navigate replace to='/login'/>
                 ) : (
-                    <div>
+                    <div> { fetchingdata ? <LoadingPage /> : <></>}
                     <label className="form-label mt-4">CURRENT BALANCE</label>
                     <div className="input-group mb-3" >
                         <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>

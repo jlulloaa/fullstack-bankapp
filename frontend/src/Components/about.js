@@ -1,8 +1,7 @@
 import Card from './card';
-// import {Link} from 'react-router-dom';
 const thisYear = new Date().getFullYear();
 
-const title = <a href="https://github.com/jlulloaa/badbank" target="_blank" rel="noreferrer">
+const title = <a href="https://github.com/jlulloaa/fullstack-bankapp" target="_blank" rel="noreferrer">
     <button className="btn btn-warning">
     BadBank on GitHub
     </button>

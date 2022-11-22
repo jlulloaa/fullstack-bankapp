@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { ToolTips } from './utils';
 // import { useCtx } from './context';
 // import { getAuth, signOut } from "firebase/auth";
-import {auth, logOut } from './loginbankingapp';
+import {auth, logOut } from './fir-login';
 import { useAuthState } from "react-firebase-hooks/auth";
 
 // Rather than using buttons to log in and sign up, use links to these pages and style them as buttons

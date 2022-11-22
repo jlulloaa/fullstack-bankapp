@@ -3,20 +3,30 @@ import { Link, Navigate } from 'react-router-dom';
 import { ToolTips } from './utils';
 
 // import { useCtx } from './context';
-import { auth, logOut } from './loginbankingapp';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, logOut } from './fir-login';
 
-// After successfully logged in, display basic information about the user. Or just a welcome message?
+// After successfully logged in, display basic information about the user.
+// Once landing here, I have everything to connect to the backend, and I'm sure the user is successfully logged in
 
 function AccountSummary() {
     // const currState = useCtx();
     
     // console.log(`Current user AUTH: ${JSON.stringify(auth.currentUser)}`);
+    const [user, loading, error] = useAuthState(auth);
+    const GreetingTxt = `Hello${ user ? ', ' + user.displayName:' '}!, welcome to BadBank`;
+    
+    if (user) {
+        console.log(user.getIdToken());
+        
+    }
 
     const handleLogout = async () => {
         await logOut();
     };
-
-    const GreetingTxt = `Hello${(auth.currentUser) ? ', ' + auth.currentUser.displayName:' '}!, welcome to BadBank`;
+    
+    // Send login details to mongodb via axios:
+    
     
     return (
         <Card 
@@ -25,7 +35,7 @@ function AccountSummary() {
             header="BadBank"
             title= { GreetingTxt }
             text="A friendly bank with an excellent website, but poor services"
-            body={ !auth.currentUser ? (
+            body={ !user ? (
                 <Navigate replace to="/login" ></Navigate>
             ) : (
                 <div><img src="./bank_logo.png" className="img-fluid" alt="Responsive Site"/>

@@ -33,7 +33,7 @@ import { Container } from 'react-bootstrap';
 
 // import { fbAuth } from './Components/loginbankingapp';
 import { onAuthStateChanged, setPersistence, browserSessionPersistence } from 'firebase/auth';
-import { auth } from './Components/loginbankingapp';
+import { auth } from './Components/fir-login';
 
 import { useState, useEffect } from 'react';
 
@@ -90,6 +90,7 @@ function App() {
         {/* <UserContext.Provider value = { currUser }> */}
         {/* Add the navigation bar */}
         <NavBar />
+        {user ? <div style={{textAlign: 'right'}}>{(user.displayName)}</div> : <></>}
         <hr/>
         {/* As learned from this blog (https://dmitripavlutin.com/react-context-and-usecontext/), all components that'll consume the context, have to be wrapped inside the Provider */}
         {/* TODO: value can be read from a json file, so later on would be better to create a function to specifically get them... */}

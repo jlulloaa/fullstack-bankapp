@@ -7,7 +7,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import { ToolTips } from './utils';
 // import { getAuth, signInWithEmailAndPassword, AuthErrorCodes, onAuthStateChanged} from "firebase/auth";
 import { AuthErrorCodes } from "firebase/auth";
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from './loginbankingapp';
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { LoadingPage } from './utils';
@@ -61,15 +61,22 @@ function Login() {
     // console.log(`Current (initial) State: ${JSON.stringify(currState)}`);
     const loginWithGoogle = async () => {
         // currState.isActive = await signInWithGoogle();
-        await signInWithGoogle()};
+        await signInWithGoogle()
+    };
+        // if return is true ==> go to the bridge function that connects to the backend (i.e. accountsummary.js?)
+
+    const loginManually = async (userData) => {
+        await logInWithEmailAndPassword(userData.email, userData.password);
+    };
 
     const formik = useFormik({
         initialValues: {
             email: "", //currState.user.email,
             password: "", // currState.user.password,
         },
-        onSubmit: async (values, {resetForm}) => {
-            await logInWithEmailAndPassword(values.email, values.password);
+        onSubmit: (values, {resetForm}) => {
+            loginManually(values);
+            // await logInWithEmailAndPassword(values.email, values.password);
             
                 // .then( (userCredentials) => {
                 //     // Signed in
@@ -150,7 +157,7 @@ function Login() {
             title="ACCESS YOUR ACCOUNT"
             text="Access your restricted area to manage your account"
             body={user ? (
-                <Navigate to="/accountsummary" >
+                <Navigate replace to="/accountsummary" >
                 </Navigate>
                 ) : (
                 <>

@@ -1,43 +1,49 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = model(
-    "users",
-    Schema (
-        {
-            name: {type: String, 
-                required: [true, "Must provide your Name"]},
-                // username: {type: String, required: false},
-                // dob: {type: Date, required: false},
-                email: {type: String, required: [true, "Must provide your email"]},
-                password: {type: String, required: [true, "Must provide a password"]},
-                // account_nro: Number
-        } //, {timestamps: true}
-    )
-);
-
-const AccountSchema = model(
-    "accounts",
-    Schema (
+// const AccountSchema = model(
+//     "accounts",
+const AccountSchema = Schema (
         {
             account_nro: Number,
             accont_type: String
         }
     )
-);
+// );
 
-const TransactionSchema = model(
-    "transactions",
-    Schema (
+// const TransactionSchema = model(
+//     "transactions",
+const TransactionSchema = Schema (
         {
+            timestamp: Date,
             account_nro: Number,
-            transact_type: {type: String,
+            transaction_type: {type: String,
                 enum: {
-                    values: ['Deposit', 'Withdrawal', 'Transfer'],
+                    values: ['deposit', 'withdrawal', 'transferin', 'transferout', 'setup'],
                     message: '{VALUE} is not a valid transaction'
                 }
-            }
+            },
+            transaction_amount: Number,
+            balance: Number,
+            account_from: {type: Number, required:false}
         }
     )
-    );
+    // );
 
-module.exports = {UserSchema, AccountSchema, TransactionSchema}; 
+
+const UserSchema = model(
+    "users",
+    Schema (
+        {
+            name: {type: String, required: [true, "Must provide your Name"]},
+            // username: {type: String, required: false},
+            // dob: {type: Date, required: false},
+            email: {type: String, required: [true, "Must provide your email"]},
+            account: [AccountSchema],
+            history: [TransactionSchema],
+            // password: {type: String, required: [true, "Must provide a password"]},
+            // account_nro: Number
+        } //, {timestamps: true}
+    )
+);
+    
+module.exports = {UserSchema}; 

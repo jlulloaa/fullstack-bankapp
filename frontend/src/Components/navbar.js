@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 // const auth = getAuth();
 // let isActive = false;
-import { auth, logOut } from './loginbankingapp';
+import { auth, logOut } from './fir-login';
 // The 'exact' keyword in the Link to Home ensures that only returns the route if the path is an exact match to the current URL. This is particularly important in the Home path because is only defined by "/", which is also present in all the other paths. See https://staceycarrillo.medium.com/highlight-the-active-navigation-bar-link-using-navlink-in-react-d44f5d8bf997 for details 
 
 // To highlight the active path use NavLink instead of Link as indicated in https://v5.reactrouter.com/web/api/NavLink
