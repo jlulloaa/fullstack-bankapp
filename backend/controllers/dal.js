@@ -5,10 +5,6 @@
  */
 const { UserSchema } = require('../models/schemas');
 
-/** This help convert the id from string to ObjectId for the _id.
- */
-// const ObjectId = require('mongodb').ObjectId;
-
 /** A good source to learn how to shape the CRUD operations, is the official mongodb tutorials:
 // https://www.mongodb.com/developer/languages/javascript/node-connect-mongodb/
 // https://www.mongodb.com/developer/languages/javascript/node-crud-tutorial/
@@ -30,59 +26,36 @@ function welcome(req, res) {
  * @param {password} string - user password
  * @return {void} no return output
  */
-function createUser(req, res) {
+async function createUser(req, res) {
     // Validate request
-    console.log(`Request body: ${JSON.stringify(req.body)}`);
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
     }
-    // Create new user
-    let now = new Date(); // Timestamp defined here
+    // Check the user's email is not already used. Return everything in case it already exist, so the function serves two purposes: create or login
+    const userData = await UserSchema.find({email: req.body.user.email});
+    if (!(userData.length > 0)) {
+        // Create new user
+        let now = new Date(); // Timestamp defined here
 
-    const newUser = new UserSchema(
-        {
-            name: req.body.user.name,
-            email: req.body.user.email,
-            account: [{
-                account_nro: 10001,
-                account_type: 'current',
-            }],
-            history: [{
-                timestamp: new Date(),
-                account_nro: 10001,
-                transaction_type: 'setup',
-                transaction_amount:0,
-                balance:0,
-            },
+        const newUser = new UserSchema(
             {
-                timestamp: new Date(),
-                account_nro: 10001,
-                transaction_type: 'deposit',
-                transaction_amount:1000,
-                balance:1000,
-
-            },
-            {
-                timestamp: new Date(),
-                account_nro: 10001,
-                transaction_type: 'withdrawal',
-                transaction_amount:500,
-                balance:500,
-
+                name: req.body.user.name,
+                email: req.body.user.email,
+                account: [{
+                    account_nro: 10001,
+                    account_type: 'current',
+                }],
+                history: [{
+                    timestamp: new Date(),
+                    account_nro: 10001,
+                    transaction_type: 'setup',
+                    transaction_amount:0,
+                    balance:0,
+                }]
             }
-            ]
-            // password: req.body.user.uid
-            // account_nro: Int(Math.random()*1000
-        }
-    );
-    // Check the user doesn't exist:
-    // Make a query using graphQL to get only emails from registered users.
-    // Check the newUser.email is not in that list. If it so, then issues an error
-    
-    // Save New User in the database:
-    // const auth = true;
-    // if (auth) {
+        );        
+        // Save New User in the database:
         newUser
             .save()
             .then(data => {
@@ -93,9 +66,12 @@ function createUser(req, res) {
                     message: `${JSON.stringify(err)}` || "Some error occurred when creating the user, please try again"
                 });
             });
-        // return res.send('New User added successfully');
-    // }
-        // return res.status(403).send('Not authorized')
+    } else {
+        // Get login access with token
+        console.log('Email already exists');
+        res.status(500).send({message: 'User already exists'});
+    }
+
     };
 
 /** CREATETRANSACTION
@@ -104,11 +80,9 @@ function createUser(req, res) {
 
 function createTransaction(req, res) {
     if (!req.body) {
-        console.log('Bye')
         res.status(400).send({ message: "Content can not be empty!" });
         return;
     }
-    console.log(`Document ID used as reference for the queries: ${JSON.stringify(req.body.user)}`);
     const newTransaction = { 
         timestamp: req.body.timestamp,
         account_nro: req.body.user.account_nro,
@@ -125,9 +99,6 @@ function createTransaction(req, res) {
                 message: `${err}` || "Some error " 
             });
         });
-    // console.log(req);
-    // res.status(200).send({message: 'Ready to send data ;)' });
-    // Here form the new object to send to the backend
 };
 
 /** READONE
@@ -141,7 +112,6 @@ function createTransaction(req, res) {
         .then((doc) => {
             try {
                 const lastTransaction = doc.history.at(-1);
-                console.log(`From the database ${lastTransaction}`); //[len(doc.history)-1]}`);
                 res.send(lastTransaction);
             } catch {
                 res.send(null);
@@ -161,28 +131,20 @@ function createTransaction(req, res) {
  * I'm following the best practices of using promises, as suggested by Express documentation https://expressjs.com/en/advanced/best-practice-performance.html#use-promises
  */ 
 function readAll(req, res) {
-    // const auth = true;
-    // if (auth) {
-        UserSchema.find({email: req.query.email}, 'history')
-            // .toArray()
-            .then((docs) => {
-                // resolve(docs);
-                console.log(docs);
-                try{
-                    res.send(docs[0].history);
-                } catch {
-                    res.send(null);
-                }
-            })
-            .catch((err) => {
-                // reject(error);
-                res.status(500).send({
-                    message: err.message || "Some error occurred while retrieving the data"
-                });
+    UserSchema.find({email: req.query.email}, 'history')
+        .then((docs) => {
+            try{
+                res.send(docs[0].history);
+            } catch {
+                res.send(null);
+            }
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving the data"
             });
-        // };
-    // return res.status(403).send('Not authorized');
-    };
+        });
+};
 
 /** UPDATEUser
  * 

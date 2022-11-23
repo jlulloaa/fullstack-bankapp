@@ -1,12 +1,9 @@
 import React , { useState } from 'react';
 import Card from './card';
-// import { useCtx } from './context';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ToolTips } from './utils';
-// import { getAuth, signInWithEmailAndPassword, AuthErrorCodes, onAuthStateChanged} from "firebase/auth";
-// import { AuthErrorCodes } from "firebase/auth";
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -14,53 +11,10 @@ import { LoadingPage } from './utils';
 
 function Login() {
 
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const currState = useCtx();
-    // const [userLogin, setUserLogin] = useState(false);
     const [btndisabled, setBtnDisabled] = useState(true);
     const [user, loading] = useAuthState(auth);
-    // const navigate = useNavigate();
 
-    // useEffect(() => {
-
-    //   if (loading) {
-    //     // maybe trigger a loading screen
-    //     return;
-    //   }
-    //   if (user) {
-    //     // setUserLogin(true);
-    //     currState.isActive = true;
-    //     console.log(JSON.stringify(user));
-    //     // navigate("/accountsummary");
-    // } else {
-    //     setUserLogin(false);
-    //     currState.isActive = false;
-    // }
-    // }, [user, loading, currState]);
-
-    // Initialize Firebase Authentication and get a reference to the service
-    // const auth = getAuth(fbAuth);   
-    // const { users, setContext } = useCtx();
-    // const currState = useCtx();
-    // let isActive = false
-    // onAuthStateChanged(auth, (user) => {
-    //     if (user) {
-    //       // User is signed in, see docs for a list of available properties
-    //       // https://firebase.google.com/docs/reference/js/firebase.User
-    //       const uid = user.uid;
-    //       isActive = true;
-    //       // ...
-    //     } else {
-    //       isActive = false;
-    //       // User is signed out
-    //       // ...
-    //     }
-    //   });
-    
-    // console.log(`Current (initial) State: ${JSON.stringify(currState)}`);
     const loginWithGoogle = async () => {
-        // currState.isActive = await signInWithGoogle();
         await signInWithGoogle()
     };
         // if return is true ==> go to the bridge function that connects to the backend (i.e. accountsummary.js?)
@@ -76,36 +30,7 @@ function Login() {
         },
         onSubmit: (values, {resetForm}) => {
             loginManually(values);
-            // await logInWithEmailAndPassword(values.email, values.password);
-            
-                // .then( (userCredentials) => {
-                //     // Signed in
-                //     const user = userCredentials.user;
-                //     console.log(`User local variable: ${JSON.stringify(user)}`);
-                //     console.log(`Values upper variable: ${JSON.stringify(values)}`);
-                //     console.log(`Local userCredential: ${JSON.stringify(userCredentials)}`);
-
-                //     // alert(`User ${user.email} logged in successfully`)
-                //     // currState.user.email = values.email;
-                //     // currState.isActive=true;
-                //     setUserLogin(true);
-                //     resetForm({values:''});
-                //     setBtnDisabled(true);
-                //     // console.log(`Current State: ${JSON.stringify(currState)}`);
-                //     // Shall call the backend with the login details to retrieve the user information ...
-                // })
-                // .catch( (error) => {
-                //     if (error.code === AuthErrorCodes.USER_DELETED) {
-                //         alert(`User ${values.email} not registered`)
-                //     } else if (error.code === AuthErrorCodes.INVALID_PASSWORD) {
-                //         alert('Incorrect password');
-                //     }
-                //     setUserLogin(false);
-                //     console.log(error.message);
-                // })
-            // console.log(currState.user);
-            // setIsLoading(false);
-        },
+         },
         validate,
     });
     
@@ -120,20 +45,6 @@ function Login() {
             errors.email = 'Email should be in the correct format';
             disableBtn = true;
             // Adding another branch, check whether email is in users
-        } else {            
-            // Check whether the email is in the users list (create a simple check function)
-            // When a backend is enabled, this check will happen there, so this is not used
-            // var findEmailPos = users.findIndex(item => item.email === values.email);
-            // console.log(findEmailPos);
-            // if (findEmailPos < 0 ) {
-            //     errors.email = 'Email is not registered, please create an account first'
-            //     disableBtn = true;
-            // } else {
-            //     // Swap the last element by the one selected by the email:
-            //     console.log(users[findEmailPos]);
-            //     [users[findEmailPos], users[users.length-1]] = [users[users.length-1], users[findEmailPos]];
-            //     console.log(users);
-            // }
         }; 
       
         if (!values.password) {

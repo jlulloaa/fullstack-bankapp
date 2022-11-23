@@ -1,58 +1,22 @@
-// const firebaseAdmin = require('../server');
+// Let's try firebase for firAdmin the backend as well (see https://dev.to/bbarbour/creating-a-mern-stack-app-that-uses-firebase-authentication-part-one-31a7 and https://firebase.google.com/docs/firAdmin/setup)
+const firAdmin = require('firebase-admin');
 
-// This syntax allows to export the callback function 
-// module.exports  = async function (req, res, next) {
-//   try {
-//     const firebaseToken = req.headers.authorization?.split(" ")[1];
+const serviceAccount = require('../config/fir-env.json');
 
-//     let firebaseUser;
-//     if (firebaseToken) {
-//       firebaseUser = await firebaseAdmin.auth.verifyIdToken(firebaseToken);
-//     }
+firAdmin.initializeApp({
+        credential: firAdmin.credential.cert(serviceAccount)
+    });
 
-//     if (!firebaseUser) {
-//       // Unauthorized
-//       return res.sendStatus(401);
-//     }
-
-//     const usersCollection = req.app.locals.db.collection("user");
-
-//     const user = await usersCollection.findOne({
-//       firebaseId: firebaseUser.user_id
-//     });
-
-//     if (!user) {
-//       // Unauthorized
-//       return res.sendStatus(401);
-//     }
-
-//     req.user = user;
-
-//     next();
-//   } catch (err) {
-//     //Unauthorized
-//     res.sendStatus(401);
-//   }
-// };
-
-// authenticateToken.js
-// const admin = require('firebase-admin');
-// const serviceAccount = require('../config/fir-env.json');
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   // databaseURL: 'https://phone-book-fe436.firebaseio.com',
-// });
-async function decodeIDToken(req, res, next) {
-  const header = req.headers?.authorization;
-  if (header !== 'Bearer null' && req.headers?.authorization?.startsWith('Bearer ')) {
-const idToken = req.headers.authorization.split('Bearer ')[1];
-try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      req['currentUser'] = decodedToken;
+function verifyToken(req, res, next) {
+    try {
+      const idToken = req.headers.authorization;
+      firAdmin.auth().verifyIdToken(idToken)
+        .then(() => {next()})
     } catch (err) {
-      console.log(err);
+      console.log('Cannot verify token');
+      console.log(`Cannot verify token (${err})`);
+      res.send('Authentication error! (' + err + ')');
     }
   }
-next();
-}
-module.exports = decodeIDToken;
+
+  module.exports = {verifyToken};

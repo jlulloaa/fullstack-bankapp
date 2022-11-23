@@ -10,10 +10,10 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, deleteUser, // updateProfile,
   // setting persistence:
   setPersistence, browserSessionPersistence, 
-  signInWithRedirect as GoogleSignIn,
-  //signInWithPopup as GoogleSignIn,
+  // signInWithRedirect as GoogleSignIn,
+  signInWithPopup as GoogleSignIn,
  signInWithEmailAndPassword, createUserWithEmailAndPassword,
- sendPasswordResetEmail, signOut } from "firebase/auth";
+ sendPasswordResetEmail, signOut, getRedirectResult } from "firebase/auth";
 
 import { postNewUser } from '../services/middleware';
  // import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes} from "firebase/auth";
@@ -74,10 +74,12 @@ const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
     await GoogleSignIn(auth, googleProvider)
-      .then(() => {
+    // getRedirectResult(auth)
+      .then((result) => {
         console.log('Everything allright signing up with google ;) ');
         // return true;    
         // Sends everything to the backend to access banking data. That function also should redirects to the correct frontend view (e.g. accountsummary)
+        postNewUser(result.user);
       })
       .catch((err) => {
         console.error(err);

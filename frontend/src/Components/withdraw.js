@@ -2,16 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { Navigate } from 'react-router-dom';
 import { formatBalance, ToolTips } from './utils';
 import Card from './card';
-// import { useCtx } from './context';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {getBankingTransactions, postNewTransaction} from '../services/middleware';
 import { LoadingPage } from './utils';
 
 function Withdraw() {
-
-    // const { user, setContext } = useCtx();
-    // const user = auth.currentUser; // useCtx();
 
     const [user, loading, error] = useAuthState(auth);
 
@@ -56,8 +52,6 @@ function Withdraw() {
       }
 
     const onClickHandler = () => {
-        //  replicate the last element to populate it with the new transaction:
-        //  user.push({...user.at(-1)});
         let now = new Date();
         const new_transaction = { 
             user: user,
@@ -69,17 +63,6 @@ function Withdraw() {
         postNewTransaction(new_transaction);
         setBalance(balance - withdrawal);
 
-
-        // // This new functionality allows to get the last element (ES2022):
-        // user.at(-1).history.push({
-        //     deposit: '',
-        //     withdraw: withdrawal,
-        //     balance: balance - withdrawal,
-        //     date: now.toLocaleDateString('en-GB'),
-        //     time: now.toTimeString()
-        // });
-        // setContext(user);
-        // setBalance(user.at(-1).history.at(-1).balance);
         setWithdrawal(null);
         setWithdrawValue("");
         setBtnDisabled(true);

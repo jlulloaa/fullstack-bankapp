@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from './card';
-// import { useCtx } from './context';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
 import { ToolTips } from './utils';
 import { Link } from 'react-router-dom';
-// import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes} from "firebase/auth";
-// import { AuthErrorCodes, onAuthStateChanged,updateProfile } from "firebase/auth";
 import { auth, registerWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { LoadingPage } from './utils';
-import { postNewUser } from '../services/middleware';
 
 function CreateAccount() {
    
     const [btndisabled, setBtnDisabled] = React.useState(true);
     const [user, loading, error] = useAuthState(auth);
     
-    const loginWithGoogle = async () => {
-        await signInWithGoogle();
+    const loginWithGoogle = () => {
+     signInWithGoogle();
     };
     const registerNewUser = async (userData) => {
         await registerWithEmailAndPassword(userData.name, userData.email, userData.password);

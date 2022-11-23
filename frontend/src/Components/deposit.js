@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { Navigate } from 'react-router-dom';
 import { formatBalance, ToolTips } from './utils';
 import Card from './card';
-// import { useCtx } from './context';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {getBankingTransactions, postNewTransaction} from '../services/middleware';
@@ -10,18 +9,12 @@ import { LoadingPage } from './utils';
 
 function Deposit() {
 
-    // const { user, setContext } = useCtx();
-    // const user = auth.currentUser; // useCtx();
-
     const [user,] = useAuthState(auth);
     // Get user latest balance (main assumption is the latest transaction has the most up to date balance)
     const [fetchingdata, setFetchingdata] = useState(false);
 
-     
-
     // The logic here is going to completely change, as we now have to connect to the backend...
-    // const [balance, setBalance] = React.useState(user.at(-1).history.at(-1).balance);
-    const [balance, setBalance] = useState(); //user.history.at(-1).balance);
+    const [balance, setBalance] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
     const [depositValue, setDepositValue] = useState("");
     const [deposit, setDeposit] = useState(null);
@@ -30,6 +23,7 @@ function Deposit() {
         const getBalance = async () => {
             setFetchingdata(true);
             const currBalance = await getBankingTransactions(user);
+            console.log(`Getting balance during UseEffect: ${currBalance}`)
             setBalance(currBalance);
         }
         getBalance();
@@ -52,8 +46,6 @@ function Deposit() {
       }
     
     const onClickHandler = () => {
-        // replicate the last element to populate it with the new transaction:
-        // user.push({...user.at(-1)});
         let now = new Date(); // Timestamp defined here
         // The new functionality 'at(index)' allows to get the last element by setting index=-1 (ES2022):
         const new_transaction = { 
@@ -66,21 +58,6 @@ function Deposit() {
         postNewTransaction(new_transaction);
         setBalance(balance + deposit);
 
-        // email: userData.user.email,
-        // transaction_type : userData.transact_type,
-        // transaction_amount: userData.transact_amount,
-        // updated_balance: userData.updated_balance,
-        // timestamp: userData.timestamp
-
-        // user.history.push({ 
-        //     deposit: deposit,
-        //     withdraw: '',
-        //     balance : balance + deposit,
-        //     date: now.toLocaleDateString('en-GB'),
-        //     time: now.toTimeString()
-        // });
-        // setContext(user);
-        // setBalance(user.history.at(-1).balance);
         setDeposit(null);
         setDepositValue("");
         setBtnDisabled(true);
