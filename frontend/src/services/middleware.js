@@ -9,11 +9,14 @@ import axios from 'axios';
 const urlAddUser = `${process.env.REACT_APP_API_URL}/create`;
 const urlAddTransaction = `${process.env.REACT_APP_API_URL}/addtransaction`;
 const urlReadAllData = `${process.env.REACT_APP_API_URL}/readall`;
+const urlGetAllEmail = `${process.env.REACT_APP_API_URL}/getallemail`;
 const urlReadSingleData = `${process.env.REACT_APP_API_URL}/readone`;
+const urlCheckUserExists = `${process.env.REACT_APP_API_URL}/isuser`;
+const urlReadBankData = `${process.env.REACT_APP_API_URL}/readbankdetails`;
 
-  
 const createToken = async (user) => {
     const token = user && (await user.getIdToken());
+    // console.log(`Create-Token User is ${user}`);
     const payloadHeader = {
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +27,8 @@ const createToken = async (user) => {
   }
 
 // Post New User data
-const postNewUser = async (user) => {
+const postUser = async (user) => {
+    const header = await createToken(user);
     const payload = { 
         user: {
             name: user.name ? user.name : user.displayName,
@@ -32,20 +36,24 @@ const postNewUser = async (user) => {
             id: user._id
         }
     }
-    try {
+    // Check the email is not in use in the dB:
+    const inUse = await axios.get(urlCheckUserExists, {params: {email: user.email}}, header);
+    if (!inUse.data) {
         console.log('Creating new user...');
-        const res = await axios.post(urlAddUser, payload);
-        console.log('User successfully created in the backend');
-        return res.data;
-    } catch(err) {
-        console.error(`PostNewUser error: ${err}`);
-        removeUser();
-        logOut();
-        alert(`Cannot create new User ${err}`);
-        return null;
+        axios.post(urlAddUser, payload)
+            .then((res) => {
+                console.log('User successfully created in the backend');
+                return res.data;
+            })
+            .catch((err) => {
+                console.error(`PostNewUser error: ${err}`);
+                removeUser();
+                logOut();
+                alert(`Cannot create new User ${err}`);
+                return null;
+            })
     }
-  };
-
+};
 
 // Post a new transaction 
 const postNewTransaction = async (userData) => {
@@ -55,7 +63,8 @@ const postNewTransaction = async (userData) => {
         transaction_type : userData.transact_type,
         transaction_amount: userData.transact_amount,
         updated_balance: userData.updated_balance,
-        timestamp: userData.timestamp
+        timestamp: userData.timestamp,
+        receipt_email: userData.receipt_email
     }
     try {
         console.log(`Adding new data to history transaction...`);
@@ -82,7 +91,7 @@ const getAllBankingData = async (user) => {
         }
   }
 
-//   Get single data based on a specific parameter
+//   Get history transactions, based the email (is unique for the dB users)
 const getBankingTransactions = async (user) => {
     const header = await createToken(user);
     const payload = {email: user.email};
@@ -98,4 +107,35 @@ const getBankingTransactions = async (user) => {
         }
 };
 
-export {postNewUser, createToken, getAllBankingData, getBankingTransactions, postNewTransaction}
+//   Get Account Nro, based the email (is unique for the dB users)
+const getBankingDetails = async (user) => {
+    const header = await createToken(user);
+    const payload = {email: user.email};
+    try
+        {
+            const bankDetails = await axios.get(urlReadBankData, {params: payload}, header);
+            const accountNro = bankDetails.data.account_nro;
+            return accountNro;
+        }
+    catch (err)
+        {
+            console.error(`GetBankingTransactions error: ${err}`);
+        }
+};
+
+// Get all email to display in a list:
+const getAllEmail = async (user) => {
+    const header = await createToken(user);
+    const payload = {email: user.email};
+    try {
+        const res = await axios.get(urlGetAllEmail, {params: payload}, header);
+        return res.data;
+    }
+    catch (err) {
+        console.log();
+    }
+}
+
+
+
+export {postUser, createToken, getAllBankingData, getAllEmail, getBankingTransactions, postNewTransaction, getBankingDetails} //, postNewTransfer}

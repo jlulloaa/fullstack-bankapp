@@ -4,7 +4,7 @@ import { formatBalance, ToolTips } from './utils';
 import Card from './card';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {getBankingTransactions, postNewTransaction} from '../services/middleware';
+import {getBankingTransactions, postNewTransaction, getBankingDetails} from '../services/middleware';
 import { LoadingPage } from './utils';
 
 function Deposit() {
@@ -15,6 +15,7 @@ function Deposit() {
 
     // The logic here is going to completely change, as we now have to connect to the backend...
     const [balance, setBalance] = useState();
+    const [accountNro, setAccountNro] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
     const [depositValue, setDepositValue] = useState("");
     const [deposit, setDeposit] = useState(null);
@@ -22,8 +23,9 @@ function Deposit() {
     useEffect(() => {
         const getBalance = async () => {
             setFetchingdata(true);
+            const accNro = await getBankingDetails(user);
+            setAccountNro(accNro);
             const currBalance = await getBankingTransactions(user);
-            console.log(`Getting balance during UseEffect: ${currBalance}`)
             setBalance(currBalance);
         }
         getBalance();
@@ -68,7 +70,7 @@ function Deposit() {
                 txtcolor="white"
                 header="BadBank"
                 title="DEPOSITS"
-                text={<>Hello{user ? <>, {user.displayName}! </> : <>! </>}Here you can add funds to your account</>}
+                text={<>Hello{user ? <>, {user.displayName}! </> : <>! </>}Here you can add funds to your account {accountNro}</>}
                 body = { !user ? (
                     <Navigate replace to='/login'/>
                 ) : (

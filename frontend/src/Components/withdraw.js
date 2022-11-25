@@ -4,15 +4,16 @@ import { formatBalance, ToolTips } from './utils';
 import Card from './card';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {getBankingTransactions, postNewTransaction} from '../services/middleware';
+import {getBankingTransactions, postNewTransaction, getBankingDetails} from '../services/middleware';
 import { LoadingPage } from './utils';
 
 function Withdraw() {
 
-    const [user, loading, error] = useAuthState(auth);
+    const [user,] = useAuthState(auth);
 
     const [fetchingdata, setFetchingdata] = useState(false);
-    const [balance, setBalance] = useState(); //user.at(-1).history.at(-1).balance);
+    const [balance, setBalance] = useState();
+    const [accountNro, setAccountNro] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
     const [withdrawValue, setWithdrawValue] = useState("");
     const [withdrawal, setWithdrawal] = useState(null);
@@ -20,6 +21,8 @@ function Withdraw() {
     useEffect(() => {
         const getBalance = async () => {
             setFetchingdata(true);
+            const accNro = await getBankingDetails(user);
+            setAccountNro(accNro);
             const currBalance = await getBankingTransactions(user);
             setBalance(currBalance);
         }
@@ -74,7 +77,7 @@ function Withdraw() {
             txtcolor="white"
             header="BadBank"
             title="WITHDRAWAL"
-            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}Here you can withdraw funds from your account</>}
+            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}Here you can withdraw funds from your account {accountNro}</>}
             body = {!user ? (
                     <Navigate replace to='/login'/>
                 ) : (

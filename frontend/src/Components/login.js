@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { ToolTips } from './utils';
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { GoogleLoginButton } from "react-social-login-buttons";
 
 import { LoadingPage } from './utils';
 
@@ -81,14 +82,13 @@ function Login() {
                     <button data-tip data-for="existAccTip" type="submit" className="btn btn-success" disabled={btndisabled}> Login</button>
                     <ToolTips></ToolTips>
                 </form> 
-                <button className="login__btn login__google" onClick={loginWithGoogle}>
-                    Login with Google
-                </button>
+                    <GoogleLoginButton onClick={loginWithGoogle} />
                 <div>
-                    <Link to="/reset">Forgot Password</Link>
+                    <Link to="/reset" className="btn btn-outline-light">Forgot Password</Link>
                 </div>
                 <div>
-                    Don't have an account? <Link to="/createaccount">Register</Link> now.
+                    Don't have an account?<br/>
+                    <Link to="/createaccount"className="btn btn-outline-light" >Register now</Link>
                 </div>
                 </>
                 )

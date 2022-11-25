@@ -21,7 +21,7 @@ const about = <>
         <span className="badge rounded-pill bg-light" data-bs-toggle="tooltip" data-bs-placement="left" title="https://bootswatch.com/spacelab">
         Spacelab
         </span>
-    </a>. BadBank emulates a banking application where a validated user can deposit and withdraw funds from the account, keeping track of the remaining balance and history of transactions.
+    </a>. BadBank is a fullstack banking application where a validated user can deposit, withdraw and transfer funds from the account, keeping track of the remaining balance and history of transactions.
     </>;
 
 const body = <>

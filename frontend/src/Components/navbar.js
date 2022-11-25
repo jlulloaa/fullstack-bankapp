@@ -56,6 +56,7 @@ function NavBar() {
                             <Nav.Link data-tip data-for="allDataTip"  className="nav-link inactive" to="/accountsummary" as={Link} href="/accountsummary" > Landing</Nav.Link>
                             <Nav.Link data-tip data-for="depositTip" className="nav-link" to="/deposit" as={Link} href="/deposit" > Deposit</Nav.Link>
                             <Nav.Link data-tip data-for="withdrawTip" className="nav-link" to="/withdraw" as={Link} href="/withdraw" > Withdrawal</Nav.Link>
+                            <Nav.Link data-tip data-for="transferTip" className="nav-link" to="/transfer" as={Link} href="/transfer" > Transfer</Nav.Link>
                             <Nav.Link data-tip data-for="allDataTip" className="nav-link" to="/allData" as={Link} href="/allData" > All data</Nav.Link>
                             <Nav.Link data-tip data-for="logoutTip"  className="nav-link" to="/login" as={Link} href="/logout" onClick={handleLogout}> Logout</Nav.Link>
                             </>)

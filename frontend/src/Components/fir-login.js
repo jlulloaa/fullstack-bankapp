@@ -1,22 +1,17 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// import { getFirestore, addDoc, collection, query, getDocs, where } from "firebase/firestore";
-// Enable add/read documents to/from Cloud Firestore (users)
-// import { getAnalytics } from "firebase/analytics";
-
 // Following the tutorial here to set up firebase and manage persistence:
 // https://blog.logrocket.com/user-authentication-firebase-react-apps/
 // react-firebase-hooks to manage the authentication state of the user.
-import { GoogleAuthProvider, getAuth, deleteUser, // updateProfile,
+import { GoogleAuthProvider, getAuth, deleteUser,
   // setting persistence:
   setPersistence, browserSessionPersistence, 
-  // signInWithRedirect as GoogleSignIn,
-  signInWithPopup as GoogleSignIn,
+  signInWithRedirect as GoogleSignIn,
+  // signInWithPopup as GoogleSignIn,
  signInWithEmailAndPassword, createUserWithEmailAndPassword,
- sendPasswordResetEmail, signOut, getRedirectResult } from "firebase/auth";
+ sendPasswordResetEmail, signOut } from "firebase/auth";
 
-import { postNewUser } from '../services/middleware';
- // import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes} from "firebase/auth";
+import { postUser } from '../services/middleware';
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -47,39 +42,12 @@ setPersistence(auth, browserSessionPersistence);
 // Signup with Google Account:
 const googleProvider = new GoogleAuthProvider();
 
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/firebase.User
-//     if (!user.displayName) {
-//       updateProfile(auth.currentUser, {
-//           displayName: auth.currentUser.name
-//       }).then(() => {
-//           // Profile updated!
-//           // ...
-//         }).catch((error) => {
-//           // An error occurred
-//           // ...
-//         });
-        
-//     }
-//     console.log(JSON.stringify(user));
-//     postNewUser(user);
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
-
 const signInWithGoogle = async () => {
     await GoogleSignIn(auth, googleProvider)
-    // getRedirectResult(auth)
       .then((result) => {
         console.log('Everything allright signing up with google ;) ');
-        // return true;    
         // Sends everything to the backend to access banking data. That function also should redirects to the correct frontend view (e.g. accountsummary)
-        postNewUser(result.user);
+        postUser(result.user, 'google');
       })
       .catch((err) => {
         console.error(err);
@@ -95,23 +63,23 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     // Signed in 
     if (!auth.currentUser.displayName) {
       await updateProfile(auth.currentUser, {displayName: name});
-      console.log('New user sent to the backend...');
-      postNewUser(auth.currentUser);
     }
-    console.log(auth.currentUser.displayName);
+    console.log('New user sent to the backend...');
+    postUser(auth.currentUser);//, 'EandP');
   })
   .catch((error) => {
-    console.log(error.code);
-    console.log(error.message);
+    console.log(`RegisterWithEmailAndPassword error (code:message) ${error.code}:${error.message}`);
   });
 }
 
 // Signin (existing user) with email and password
 const logInWithEmailAndPassword = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password)
-    .then(() => {})
+    .then(async () => {
+      postUser(auth.currentUser);//, 'EandP');
+    })
     .catch((err) => {
-      console.error(err);
+      console.error(`LogInWithEmailAndPassword error: ${err}`);
       alert(err.message);
     })
 };
@@ -123,7 +91,7 @@ const sendPasswordReset = async (email) => {
       alert("Password reset link sent!");
     })
     .catch((err) => {
-      console.error(err);
+      console.error(`SendPasswordReset error: ${err}`);
       alert(err.message);
     })
 };
@@ -151,12 +119,10 @@ const logOut = async() => {
 const removeUser = async() => {
   await deleteUser(auth.currentUser)
     .then(() => {
-      // User deleted.
       console.log('User deleted')
     })
-    .catch((error) => {
-      // An error ocurred
-      // ...
+    .catch((err) => {
+      console.log(`RemoveUser error: ${err}`);
     });
   }
 
@@ -186,7 +152,6 @@ onAuthStateChanged(auth, (user) => {
 })
 
 export { auth,
-  // db,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 import { auth, registerWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { LoadingPage } from './utils';
+import { GoogleLoginButton } from "react-social-login-buttons";
 
 function CreateAccount() {
    
     const [btndisabled, setBtnDisabled] = React.useState(true);
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading,] = useAuthState(auth);
     
     const loginWithGoogle = () => {
      signInWithGoogle();
@@ -92,11 +93,10 @@ function CreateAccount() {
                         <button data-tip data-for="newAccTip" type="submit" className="btn btn-success" disabled={btndisabled}> Create Account</button>
                         <ToolTips></ToolTips>
                     </form>
-                    <button className="register__btn register__google" onClick={loginWithGoogle}>
-                        Register with Google
-                    </button>
+                        <GoogleLoginButton onClick={loginWithGoogle} />
                     <div>
-                        Already have an account? <Link to="/login">Login</Link> now.
+                        Already have an account? <br/>
+                        <Link to="/login" className="btn btn-outline-light" >Login now</Link>
                     </div>                    
                 </>
                 )

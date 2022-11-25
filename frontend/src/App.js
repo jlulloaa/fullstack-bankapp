@@ -15,6 +15,7 @@ import UserContext from './Components/context';
 
 import Home from './Components/home';
 import Deposit from './Components/deposit';
+import Transfer from './Components/transfer';
 import Withdraw from './Components/withdraw';
 import AllData from './Components/alldata';
 import Login from './Components/login';
@@ -23,6 +24,7 @@ import CreateAccount from './Components/createaccount';
 import AccountSummary from './Components/accountsummary';
 import About from './Components/about';
 import Products from './Components/products';
+import Reset from './Components/workinprogress';
 import NavBar from './Components/navbar';
 import Footer from './Components/footer';
 
@@ -90,7 +92,7 @@ function App() {
         {/* <UserContext.Provider value = { currUser }> */}
         {/* Add the navigation bar */}
         <NavBar />
-        {user ? <div style={{textAlign: 'right'}}>{(user.displayName)}</div> : <></>}
+        {user ? <div style={{textAlign: 'right'}}>{(user.displayName)} ({(user.email)})</div> : <></>}
         <hr/>
         {/* As learned from this blog (https://dmitripavlutin.com/react-context-and-usecontext/), all components that'll consume the context, have to be wrapped inside the Provider */}
         {/* TODO: value can be read from a json file, so later on would be better to create a function to specifically get them... */}
@@ -102,10 +104,12 @@ function App() {
             <Route path="/accountsummary" exact element={<AccountSummary/>} />
             <Route path="/deposit" exact element={<Deposit/>} />
             <Route path="/withdraw" exact element={<Withdraw/>} />
+            <Route path="/transfer" exact element={<Transfer/>} />
             <Route path="/allData" exact element={<AllData/>} />
             <Route path="/logout" exact element= {<Logout/>} />
             <Route path="/about" exact element={<About/>} />
             <Route path="/products" exact element={<Products/>} />
+            <Route path="/reset" exact element={<Reset/>} />
           </Routes>
         </UserContext.Provider>
         <Footer />
