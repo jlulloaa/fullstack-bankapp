@@ -1,34 +1,21 @@
 import Card from './card';
 import { Link, Navigate } from 'react-router-dom';
-import { ToolTips, Tagline } from './utils';
-
-// import { useCtx } from './context';
+import { ToolTips, Tagline, Header } from './utils';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, logOut } from './fir-login';
+import { auth } from './fir-login';
 import { ButtonGroup } from 'react-bootstrap';
-import { LoadingPage, Header } from './utils';
 
 // After successfully logged in, display basic information about the user.
 // Once landing here, I have everything to connect to the backend, and I'm sure the user is successfully logged in
 
 function AccountSummary() {
-    // const currState = useCtx();
-    
-    // console.log(`Current user AUTH: ${JSON.stringify(auth.currentUser)}`);
     const [user,] = useAuthState(auth);
     const GreetingTxt = `Hello${user ? ', ' + user.displayName:' '}! \nWelcome to BadBank`;
     
     if (user) {
         console.log(user.getIdToken());
         
-    }
-
-    // const handleLogout = async () => {
-    //     await logOut();
-    // };
-    
-    // Send login details to mongodb via axios:
-    
+    }    
     
     return (
         <Card 
@@ -64,12 +51,11 @@ function AccountSummary() {
                                 Statement
                             </Link>
                         </ButtonGroup>
-
+                        <hr></hr>
                         <ButtonGroup vertical className="sm">
                         <Link data-tip data-for="allDataTip" to="/logout" className="btn btn-outline-success">
                                 Logout
-                            </Link>
-                            {/* <button data-tip data-for="logoutTip" className="btn btn-outline-success" onClick={handleLogout}>Logout</button> */}
+                        </Link>
                         </ButtonGroup>
                         <ToolTips></ToolTips>
                     </div>

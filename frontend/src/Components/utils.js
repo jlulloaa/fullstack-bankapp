@@ -103,13 +103,17 @@ const LoadingPage = () => {
 
 const Header = () => {
   return (
-    <Link data-tip data-for="homeTip" to="/" className="btn btn-outline-success" > <img src="./bank_icon.png" className="img-fluid" alt="Responsive Site"/> BadBank <img src="./bank_icon.png" className="img-fluid" alt="Responsive Site"/></Link>
+    <Link data-tip data-for="homeTip" to="/" className="btn btn-outline-success" > 
+      <img src="./bank_icon.png" className="img-fluid" alt="Responsive Site"/>
+      <span>BadBank</span> 
+      <img src="./bank_icon.png" className="img-fluid" alt="Responsive Site"/>
+    </Link>
    )
 }
 
 const Tagline = () => {
   return (
-    <p>A friendly bank with an excellent website and reliable services</p>
+    <>A friendly bank with an excellent website and reliable services</>
   )
 }
 

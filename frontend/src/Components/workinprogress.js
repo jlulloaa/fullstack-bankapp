@@ -13,7 +13,7 @@ function WIP() {
         <Card 
             bgcolor="primary"
             txtcolor="white"
-            header="PAGE NOT FOUND"
+            header="Ops!! PAGE NOT FOUND"
             title={title}
             text="Function requested has not yet been implemented"
             body = {body}

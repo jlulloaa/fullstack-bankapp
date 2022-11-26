@@ -55,6 +55,7 @@ function App() {
 
   const isLoading = false;
 
+  // As learned from this blog (https://dmitripavlutin.com/react-context-and-usecontext/), all components that'll consume the context, have to be wrapped inside the Provider
   return (
     <Container className="App">
       <Router>
@@ -65,9 +66,8 @@ function App() {
           </h1>
         {/* Add the navigation bar */}
         <NavBar />
-        {user ? <div style={{textAlign: 'right'}}>{(user.displayName)} ({(user.email)})</div> : <></>}
+        {user ? <div style={{display: 'flex', justifyContent: 'right'}}>{(user.displayName)} ({(user.email)})</div> : <></>}
         <hr/>
-        {/* As learned from this blog (https://dmitripavlutin.com/react-context-and-usecontext/), all components that'll consume the context, have to be wrapped inside the Provider */}
         <UserContext.Provider value = { isLoading }>
           <Routes>
             <Route path="/" exact element={<Home/>} />

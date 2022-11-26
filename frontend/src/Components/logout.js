@@ -18,7 +18,7 @@ function Logout() {
             logOut()
                 .then(() => { setTimeout(() => {
                     navigate("/", { replace: true })
-                }, 3000);}
+                }, 1000);}
                 );
             } else {
                 navigate('/', {replace: true});
