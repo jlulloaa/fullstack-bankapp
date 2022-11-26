@@ -1,6 +1,6 @@
 // Let's try firebase for firAdmin the backend as well (see https://dev.to/bbarbour/creating-a-mern-stack-app-that-uses-firebase-authentication-part-one-31a7 and https://firebase.google.com/docs/firAdmin/setup)
 const firAdmin = require('firebase-admin');
-require('dotenv').config({path: './config/config.env'});
+// require('dotenv').config({path: './config/config.env'});
 // require('dotenv').config({path: './config/fir-env.env'});
 
 const serviceAccount = {
