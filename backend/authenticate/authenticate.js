@@ -17,7 +17,6 @@ const serviceAccount = {
 };
 
 // const serviceAccount = require('../config/fir-env.json');
-console.log(JSON.stringify(serviceAccount));
 firAdmin.initializeApp({
         credential: firAdmin.credential.cert(serviceAccount)
     });
