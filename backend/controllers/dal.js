@@ -37,18 +37,19 @@ async function createUser(req, res) {
     if (!(userData.length > 0)) {
         // Create new user
         let now = new Date(); // Timestamp defined here
-
+        const account_nro = now.getFullYear()*1e8 + parseInt(now.getTime().toString().slice(-8));
+        // console.log(account_nro);
         const newUser = new UserSchema(
             {
                 name: req.body.user.name,
                 email: req.body.user.email,
                 account: [{
-                    account_nro: 10001,
+                    account_nro: account_nro,
                     account_type: 'current',
                 }],
                 history: [{
                     timestamp: new Date(),
-                    account_nro: 10001,
+                    account_nro: account_nro,
                     transaction_type: 'setup',
                     transaction_amount:0,
                     balance:0,
@@ -106,6 +107,7 @@ function createTransaction(req, res) {
         account_nro: req.body.user.account_nro,
         transaction_type:req.body.transaction_type,
         transaction_amount:req.body.transaction_amount,
+        transfer_to: req.body.receipt_email,
         balance: req.body.updated_balance,
     };
     let proceed = true;
@@ -117,6 +119,7 @@ function createTransaction(req, res) {
                     console.log(`Receipt is ${req.body.receipt_email}`);
                     const receiptTransfer = {timestamp: newTransaction.timestamp,
                                              transaction_type: 'transferin',
+                                             transfer_from: req.body.user.email,
                                              account_nro: doc.account.account_nro,
                                              transaction_amount: newTransaction.transaction_amount,
                                              balance: doc.history.at(-1).balance + newTransaction.transaction_amount

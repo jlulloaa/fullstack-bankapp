@@ -3,12 +3,13 @@ import Card from './card';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { ToolTips } from './utils';
+import { ToolTips, Header } from './utils';
 import { auth, logInWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { GoogleLoginButton } from "react-social-login-buttons";
 
 import { LoadingPage } from './utils';
+import { ButtonGroup } from 'react-bootstrap';
 
 function Login() {
 
@@ -65,7 +66,7 @@ function Login() {
         <Card 
             bgcolor="primary"
             txtcolor="white"
-            header="BadBank"
+            header=<Header/>
             title="ACCESS YOUR ACCOUNT"
             text="Access your restricted area to manage your account"
             body={user ? (
@@ -82,14 +83,13 @@ function Login() {
                     <button data-tip data-for="existAccTip" type="submit" className="btn btn-success" disabled={btndisabled}> Login</button>
                     <ToolTips></ToolTips>
                 </form> 
+                <hr/>
                     <GoogleLoginButton onClick={loginWithGoogle} />
-                <div>
-                    <Link to="/reset" className="btn btn-outline-light">Forgot Password</Link>
-                </div>
-                <div>
-                    Don't have an account?<br/>
-                    <Link to="/createaccount"className="btn btn-outline-light" >Register now</Link>
-                </div>
+                    <hr/>
+                <ButtonGroup vertical>
+                    <Link to="/reset" className="btn btn-outline-success">Forgot Password</Link>
+                   <Link to="/createaccount"className="btn btn-outline-success" > Don't have an account? <br/>Register now</Link>
+                </ButtonGroup>
                 </>
                 )
             }

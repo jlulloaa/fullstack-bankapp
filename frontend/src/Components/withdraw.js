@@ -5,7 +5,8 @@ import Card from './card';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {getBankingTransactions, postNewTransaction, getBankingDetails} from '../services/middleware';
-import { LoadingPage } from './utils';
+import { LoadingPage, Header } from './utils';
+import Swal from 'sweetalert2';
 
 function Withdraw() {
 
@@ -63,21 +64,38 @@ function Withdraw() {
             updated_balance: balance - withdrawal,
             timestamp: now,
         }
-        postNewTransaction(new_transaction);
-        setBalance(balance - withdrawal);
-
-        setWithdrawal(null);
-        setWithdrawValue("");
-        setBtnDisabled(true);
+        const withdrawText = `You are going to take ${formatBalance(new_transaction.transact_amount)} from your account`;
+        Swal.fire({
+            title: 'Proceed?',
+            text: `${withdrawText}`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                postNewTransaction(new_transaction);
+                setBalance(balance - withdrawal);
+                setWithdrawal(null);
+                setWithdrawValue("");
+                setBtnDisabled(true);
+                Swal.fire(
+                    'Done!',
+                    `Your balance is now ${formatBalance(balance - withdrawal)}`,
+                    'success'
+                )
+            }
+        })
     }
 
       return (
         <Card 
             bgcolor="primary"
             txtcolor="white"
-            header="BadBank"
+            header=<Header/>
             title="WITHDRAWAL"
-            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}Here you can withdraw funds from your account {accountNro}</>}
+            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can withdraw funds from your account Nro: {accountNro}</>}
             body = {!user ? (
                     <Navigate replace to='/login'/>
                 ) : (

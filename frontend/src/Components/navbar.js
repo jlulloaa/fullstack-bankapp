@@ -3,7 +3,7 @@ import {Container, Nav, Navbar} from 'react-bootstrap';
 // In order to style the navigation bar, is better to use NavLink instead of Link (see https://v5.reactrouter.com/web/api/NavLink). But, in order to make the navbar truly collapsable, had to stick with Link (see last comment below)
 import { Link } from 'react-router-dom';
 
-// import { LanguageChange } from './utils';
+import { LanguageChange } from './utils';
 
 // import { useCtx } from './context';
 
@@ -20,32 +20,17 @@ import { auth, logOut } from './fir-login';
 // Last update (20/08/2022): Finally managed to make it (really) work the collapsable navbar without breaking anything else. The answer was found on this thread: https://stackoverflow.com/questions/56464444/collapseonselect-in-react-bootstrap-navbars-with-react-router-dom-navlinks, using Link from react-router-dom and adding HREF (this last thing was what made the collapsable function to work)
 
 function NavBar() {
-//    const currUser = useCtx();
-//    onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       // User is signed in, see docs for a list of available properties
-//       // https://firebase.google.com/docs/reference/js/firebase.User
-//       const uid = user.uid;
-//       isActive = true;
-//       // ...
-//     } else {
-//       isActive = false;
-//       // User is signed out
-//       // ...
-//     }
-//   });
     const handleLogout = async () => {
         await logOut();
     };
 
-    // console.log(`Current State in NavBar: ${JSON.stringify(auth.currentUser)}`); 
     return (
         <Navbar collapseOnSelect bg="primary" variant="dark" expand="lg">
             <Container>
                 <Navbar.Brand data-tip data-for="homeTip" href="/"> 
                     <img src="./bank_logo.png" height="32px" alt="Bank Logo"/>
                 </Navbar.Brand>
-                {/* <LanguageChange></LanguageChange> */}
+                <LanguageChange></LanguageChange>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav variant="pills" className="ms-auto" defaultActiveKey="/" >
@@ -58,10 +43,9 @@ function NavBar() {
                             <Nav.Link data-tip data-for="withdrawTip" className="nav-link" to="/withdraw" as={Link} href="/withdraw" > Withdrawal</Nav.Link>
                             <Nav.Link data-tip data-for="transferTip" className="nav-link" to="/transfer" as={Link} href="/transfer" > Transfer</Nav.Link>
                             <Nav.Link data-tip data-for="allDataTip" className="nav-link" to="/allData" as={Link} href="/allData" > All data</Nav.Link>
-                            <Nav.Link data-tip data-for="logoutTip"  className="nav-link" to="/login" as={Link} href="/logout" onClick={handleLogout}> Logout</Nav.Link>
+                            <Nav.Link data-tip data-for="logoutTip"  className="nav-link" to="/logout" as={Link} href="/logout" onClick={handleLogout}> Logout</Nav.Link>
                             </>)
                         }
-                        {/* <Nav.Link data-tip data-for="logoutTip"  className="nav-link" to="/login" as={Link} href="/logout" > Logout</Nav.Link> */}
                         <Nav.Link data-tip data-for="aboutTip" className="nav-link" to="/about" as={Link} href="/about" > About Us</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

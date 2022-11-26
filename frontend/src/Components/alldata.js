@@ -1,13 +1,12 @@
 import React, {useRef, useState, useEffect} from 'react';
 import { Accordion, Container } from 'react-bootstrap';
 import { Navigate } from 'react-router';
-// import { useCtx } from './context';
-import { formatBalance, ToolTips } from './utils';
+import { formatBalance, formatDate, ToolTips } from './utils';
 import { useDownloadExcel } from 'react-export-table-to-excel';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {getAllBankingData} from '../services/middleware';
-import { LoadingPage } from './utils';
+import { LoadingPage, Header } from './utils';
 
 function AllData() {
 
@@ -17,11 +16,6 @@ function AllData() {
 
     const [user] = useAuthState(auth);
 
-    // const fetchEntries = async (user) => {
-    //     console.log(`Sending user ${JSON.stringify(user)} to backend`);
-    //     const fetchedEntries = await getAllBankingData(user);
-    //     return fetchedEntries;
-    // }
     const now = new Date();
     const exportData = {
         filename: '',
@@ -29,18 +23,6 @@ function AllData() {
         sheet: ''
     };
     let username = ''
-    // const retrieveData = async () => {
-    //     const output = await getAllBankingData(user);
-    //     console.log(`Output: ${output}`);
-    //     setEntries(output); //fetchEntries(user);
-    //     setFetching(false);
-    // }
-
-    // if (user) {
-    //     console.log(`Going to fetch data from user: ${JSON.stringify(user)}`);
-    //     setFetching(true);
-    //     retrieveData();
-    // // }
 
     if (user) {
         username = user.name ? user.name : user.displayName;
@@ -65,6 +47,23 @@ function AllData() {
         setEntries(null);
       }
 
+    function camelise(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+      const transactionDescription = function({transactionType, transferFrom, transferTo, account_nro}) {
+        const transactName = camelise(transactionType);
+            if (transactName === 'Transferin') {
+                return <> Transfer from {transferFrom}</>
+            } else if (transactName === 'Transferout') {
+                return <> Transfer to {transferTo} </>
+            } else if (transactName === 'Setup') {
+                return <> Setup Bank Account - Account Nro: {account_nro}</>
+            } else {
+                return <> {camelise(transactName)} </>
+            }
+      }
+
       return (
         <> { !user ? (
             <Navigate replace to='/login' />
@@ -80,23 +79,21 @@ function AllData() {
             <table ref={tableRef} className="table table-hover table-bordered">
                 <thead className="table-info align-middle" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll left to see more information">
                     <tr>
-                        <th> Date <br/><span style={{fontSize: '0.75em'}}>(DD/MM/YY)</span></th>
+                        <th> Date <br/><span style={{fontSize: '0.75em'}}>dd/MM/yy (hh:MM:ss)</span></th>
                         <th> Paid In </th>
                         <th> Paid Out </th>
                         <th> Balance </th>
-                        <th> Type of Transaction </th>
-                        <th align ="left"> Time </th>
+                        <th> Transaction Details </th>
                     </tr>
                 </thead>
                 <tbody className="table-light" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll down to see more data">
                     {entries ? (entries.map((entry, i) => (
                         <tr key={i}>
-                            <td>{entry.timestamp}</td>
+                            <td>{formatDate(entry.timestamp).date} ({formatDate(entry.timestamp).time})</td>
                             <td>{formatBalance(entry.transaction_type==='deposit' | entry.transaction_type==='transferin' ? entry.transaction_amount:0)}</td>
                             <td>{formatBalance(entry.transaction_type==='withdrawal' | entry.transaction_type ==='transferout' ? entry.transaction_amount:0)}</td>
                             <td>{formatBalance(entry.balance)}</td>
-                            <td>{entry.transaction_type.toUpperCase()}</td>
-                            <td align ="left">{entry.timestamp}</td>
+                            <td>{transactionDescription({transactionType: entry.transaction_type.toLowerCase(), transferFrom: entry.transfer_from, transferTo: entry.transfer_to, account_nro: entry.account_nro})}</td>
                         </tr>
                     ))):(<></>)}
                 </tbody>
@@ -110,6 +107,7 @@ function AllData() {
             </Accordion.Body>
             </Accordion.Item>
             </Accordion>
+            <Header/>
             <ToolTips></ToolTips>
             </Container>
         )}

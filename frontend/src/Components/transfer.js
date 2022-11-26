@@ -6,7 +6,8 @@ import Card from './card';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {getBankingTransactions, getAllEmail, postNewTransaction, getBankingDetails} from '../services/middleware';
-import { LoadingPage } from './utils';
+import { LoadingPage, Header } from './utils';
+import Swal from 'sweetalert2';
 
 function Transfer() {
 
@@ -71,13 +72,29 @@ function Transfer() {
             timestamp: now,
             receipt_email: receiptEmail
         }
-
-        // First take the money, and then deposit
-        postNewTransaction(new_transaction);
-        setBalance(balance - transfer);
-        setTransfer(null);
-        setTransferValue("");
-        setBtnDisabled(true);
+        const transferText = `We are going to transfer ${formatBalance(new_transaction.transact_amount)} to ${new_transaction.receipt_email}\nAfter this, your balance will be ${formatBalance(new_transaction.updated_balance)}`;
+        Swal.fire({
+            title: 'Please check and click TRANSFER to proceed',
+            text: `${transferText}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'TRANSFER'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                postNewTransaction(new_transaction);
+                setBalance(balance - transfer);
+                setTransfer(null);
+                setTransferValue("");
+                setBtnDisabled(true);
+                Swal.fire(
+                'Congratulations!',
+                'Transfer has been done successfully.',
+                'success'
+              )
+            }
+          })
     }
     
     const selectEmail = (selectedOption) => {
@@ -88,9 +105,9 @@ function Transfer() {
         <Card 
             bgcolor="primary"
             txtcolor="white"
-            header="BadBank"
+            header=<Header/>
             title="TRANSFER"
-            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}Here you can transfer money from your account {accountNro} to other people within BadBank</>}
+            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can transfer money from your account Nro: {accountNro} <br/>to other people within BadBank</>}
             body = {!user ? (
                     <Navigate replace to='/login'/>
                 ) : (
@@ -112,9 +129,9 @@ function Transfer() {
                     <label className="form-label mt-4">AMOUNT TO TRANSFER</label>
                     <div className="input-group mb-3">
                         <span className="input-group-text">$</span>
-                        <input data-tip data-for="withdrawAmountTip" type="number" className="form-control" id="withdrawField" aria-label="Amount (to the nearest dollar)" value={transferValue} onChange={onChangeHandler}/>
+                        <input data-tip data-for="transferAmountTip" type="number" className="form-control" id="transferField" aria-label="Amount (to the nearest dollar)" value={transferValue} onChange={onChangeHandler}/>
                         <span className="input-group-text">.00</span>
-                        <button data-tip data-for="withdrawClickTip" type="button" className="btn btn-success" id="withdrawClick" disabled={btndisabled}
+                        <button data-tip data-for="transferClickTip" type="button" className="btn btn-success" id="transferClick" disabled={btndisabled}
                         onClick={onClickHandler}>TRANSFER</button>
                     </div>
                     <ToolTips></ToolTips>

@@ -49,6 +49,10 @@ h1 {
   color: #273b87;
 }
 
+h5 {
+  white-space: pre-wrap;
+}
+
 .my-custom-scrollbar {
   position: relative;
   height: 300px;

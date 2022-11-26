@@ -5,7 +5,8 @@ import Card from './card';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {getBankingTransactions, postNewTransaction, getBankingDetails} from '../services/middleware';
-import { LoadingPage } from './utils';
+import { LoadingPage, Header } from './utils';
+import Swal from 'sweetalert2';
 
 function Deposit() {
 
@@ -57,20 +58,37 @@ function Deposit() {
             updated_balance: balance + deposit,
             timestamp: now,
         }
-        postNewTransaction(new_transaction);
-        setBalance(balance + deposit);
-
-        setDeposit(null);
-        setDepositValue("");
-        setBtnDisabled(true);
+        const depositText = `You are going to enter ${formatBalance(new_transaction.transact_amount)} into your account`;
+        Swal.fire({
+            title: 'Proceed?',
+            text: `${depositText}`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                postNewTransaction(new_transaction)
+                setBalance(balance + deposit)
+                setDeposit(null);
+                setDepositValue("");
+                setBtnDisabled(true);
+                Swal.fire(
+                    'Done!',
+                    `Your balance is now ${formatBalance(balance+deposit)}`,
+                    'success'
+                )
+            }
+          })
     }
 
     return (<Card 
                 bgcolor="primary"
                 txtcolor="white"
-                header="BadBank"
+                header= <Header/>
                 title="DEPOSITS"
-                text={<>Hello{user ? <>, {user.displayName}! </> : <>! </>}Here you can add funds to your account {accountNro}</>}
+                text={<>Hello{user ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can add funds to your account Nro: {accountNro}</>}
                 body = { !user ? (
                     <Navigate replace to='/login'/>
                 ) : (

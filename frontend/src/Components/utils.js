@@ -1,6 +1,7 @@
 import ReactTooltip from "react-tooltip";
 import { useEffect } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
+import { Link } from 'react-router-dom';
 
 // Language setting taken from https://codeutility.org/javascript-how-can-i-convert-google-translate-dropdown-into-language-button-i-am-using-google_translate_element-in-react-js-stack-overflow/ 
 const LanguageChange = () => {
@@ -33,6 +34,11 @@ const LanguageChange = () => {
     }
 }
 
+const formatDate = (dateStr) => {
+  const datevalue = new Date(Date.parse(dateStr));
+  return {date: datevalue.toLocaleDateString(), time: datevalue.toLocaleTimeString()};
+
+}
 const ToolTips = () => {
 
     const tooltipFormat = {
@@ -48,11 +54,11 @@ const ToolTips = () => {
     };
 
     const idTip = {
-        homeTip: "Reset values", 
+        homeTip: "Go to Home page", 
         createAccTip: <>Add a new <br/> account</>,
         startTip: "Get started",
         existAccTip: <>Access your <br/> account</>,
-        logoutTip: <>Logout</>,
+        logoutTip: <>Click to Logout</>,
         newAccTip: "Click to add account",
         depositTip: <>Add funds <br/> to your account</>,
         depositClickTip: "Click to deposit",
@@ -60,6 +66,9 @@ const ToolTips = () => {
         withdrawTip: <>Draw funds out <br/> from your account</>,
         withdrawClickTip: "Click to withdraw",
         withdrawAmountTip: "Enter amount", 
+        transferTip: <>Transfer funds <br/> to other accounts</>,
+        transferClickTip: "Click to transfer",
+        transferAmountTip: "Enter amount",
         aboutTip: "The small print",
         allDataTip: <>Historic <br/> transactions</>,
         noAccountTip: <>Must have an account <br/> to enable this option</>, 
@@ -92,5 +101,16 @@ const LoadingPage = () => {
   );
 }
 
+const Header = () => {
+  return (
+    <Link data-tip data-for="homeTip" to="/" className="btn btn-outline-success" > <img src="./bank_icon.png" className="img-fluid" alt="Responsive Site"/> BadBank <img src="./bank_icon.png" className="img-fluid" alt="Responsive Site"/></Link>
+   )
+}
 
-export {formatBalance, ToolTips, LanguageChange, LoadingPage};
+const Tagline = () => {
+  return (
+    <p>A friendly bank with an excellent website and reliable services</p>
+  )
+}
+
+export {formatBalance, formatDate, ToolTips, LanguageChange, LoadingPage, Header, Tagline};

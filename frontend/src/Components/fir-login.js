@@ -6,13 +6,16 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, deleteUser,
   // setting persistence:
   setPersistence, browserSessionPersistence, 
-  signInWithRedirect as GoogleSignIn,
-  // signInWithPopup as GoogleSignIn,
+  // signInWithRedirect as GoogleSignIn,
+  signInWithPopup as GoogleSignIn,
  signInWithEmailAndPassword, createUserWithEmailAndPassword,
  sendPasswordResetEmail, signOut } from "firebase/auth";
 
 import { postUser } from '../services/middleware';
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import Swal from 'sweetalert2'
+
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -51,6 +54,12 @@ const signInWithGoogle = async () => {
       })
       .catch((err) => {
         console.error(err);
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Oops...',
+        //   text: 'Something went wrong!',
+        //   footer: '<a href="/">Why do I have this issue?</a>'
+        // })
         alert(err.message);
         // return false;
       });
@@ -80,7 +89,13 @@ const logInWithEmailAndPassword = async (email, password) => {
     })
     .catch((err) => {
       console.error(`LogInWithEmailAndPassword error: ${err}`);
-      alert(err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'email/password incorrect!',
+        footer: "<a href='/'> Don't have an account? Click to register</a>"
+      })
+      // alert(err.message);
     })
 };
 

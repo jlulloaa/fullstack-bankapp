@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './card';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
-import { ToolTips } from './utils';
+import { ToolTips, Header } from './utils';
 import { Link } from 'react-router-dom';
 import { auth, registerWithEmailAndPassword, signInWithGoogle } from './fir-login';
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -72,7 +72,7 @@ function CreateAccount() {
         <Card 
             bgcolor="primary"
             txtcolor="white"
-            header="BadBank"
+            header=<Header/>
             title="CREATE A NEW ACCOUNT"
             text= "Register here to start enjoying the benefits of BadBank" 
             body={user ? (
@@ -93,10 +93,11 @@ function CreateAccount() {
                         <button data-tip data-for="newAccTip" type="submit" className="btn btn-success" disabled={btndisabled}> Create Account</button>
                         <ToolTips></ToolTips>
                     </form>
+                    <hr/>
                         <GoogleLoginButton onClick={loginWithGoogle} />
                     <div>
-                        Already have an account? <br/>
-                        <Link to="/login" className="btn btn-outline-light" >Login now</Link>
+                        <br/>
+                        <Link to="/login" className="btn btn-outline-success" >Already have an account? <br/>Login now</Link>
                     </div>                    
                 </>
                 )
