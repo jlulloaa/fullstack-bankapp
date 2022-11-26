@@ -7,7 +7,7 @@ const cors    = require('cors');
 
 // Following the MERN tutorial at https://www.mongodb.com/languages/mern-stack-tutorial include dotenv to allow using environment variables
 require('dotenv').config({path: './config/config.env'});
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5000;
 
 const app     = express();
 
