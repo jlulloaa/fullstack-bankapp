@@ -1,7 +1,7 @@
 /** server.js
  * 
  */
-// const path    = require('path');
+const path    = require('path');
 const express = require('express');
 const cors    = require('cors');
 
@@ -27,6 +27,15 @@ app.use(express.urlencoded({ extended: true }));
 // Load the routes
 app.use(require('./routes/routes'));
 // app.use(require('./routes/users'));
+// for building (see https://dev.to/gregpetropoulos/render-deployment-free-tier-of-mern-app-52mk)
+console.log(path.resolve(__dirname, '..', 'frontend', 'build','index.html'))
+if (process.env.NODE_ENV === 'production') {
+
+    //*Set static folder up in production
+    app.use(express.static('../frontend/build'));
+
+    app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build','index.html')));
+  }
 
 // Add listener to the database
 app.listen(port, () => {
