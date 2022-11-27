@@ -52,11 +52,11 @@ function Transfer() {
         if (parseInt(e.target.value) > 0) {
             // Is a valid numeric format, let see if the transfer can be covered with the balance:
             let rem = balance - parseInt(e.target.value);
-            if (rem >= 0 ) {
+            if (rem > 0 ) {
                 // Yes, there are enough funds to complete the operation
                 setBtnDisabled(false);
-                setTransfer(parseInt(e.target.value));    
-            } else {
+                setTransfer(parseInt(e.target.value));
+            } else if (rem <= 0){
                 // Not enough money to transfer.
                 Swal.fire({
                     icon: 'error',
@@ -64,6 +64,8 @@ function Transfer() {
                     text: 'Not enough money to withdraw!',
                     footer: 'Try with a different amount'
                   })
+                setBtnDisabled(true);
+            } else if (receiptEmail) {
                 setBtnDisabled(true);
             }
         } else {
