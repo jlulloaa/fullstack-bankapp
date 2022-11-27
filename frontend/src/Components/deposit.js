@@ -22,13 +22,22 @@ function Deposit() {
     const [deposit, setDeposit] = useState(null);
     
     useEffect(() => {
-        const getBalance = async () => {
-            setFetchingdata(true);
-            const accNro = await getBankingDetails(user);
-            setAccountNro(accNro);
-            const currBalance = await getBankingTransactions(user);
-            setBalance(currBalance);
-            setFetchingdata(false);
+        const getBalance = () => {
+            getBankingDetails(user)
+                .then( (res) => {
+                    setAccountNro(res)
+                })
+            getBankingTransactions(user)
+                .then( (res) => {
+                    setBalance(res);
+                    setFetchingdata(false);
+                })
+            // setFetchingdata(true);
+            // const accNro = await getBankingDetails(user);
+            // setAccountNro(accNro);
+            // const currBalance = await getBankingTransactions(user);
+            // setBalance(currBalance);
+            // setFetchingdata(false);
         }
         getBalance();
     }, [user]);
