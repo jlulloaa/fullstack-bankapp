@@ -76,7 +76,13 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     postUser(auth.currentUser);//, 'EandP');
   })
   .catch((error) => {
-    console.log(`RegisterWithEmailAndPassword error (code:message) ${error.code}:${error.message}`);
+    Swal.fire({
+      icon: 'error',
+      title: 'User already registered',
+      text: 'Please Login',
+      footer: "<a href='/login'>Click to login</a>"
+    })
+    // console.log(`RegisterWithEmailAndPassword error (code:message) ${error.code}:${error.message}`);
   });
 }
 

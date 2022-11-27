@@ -15,29 +15,31 @@ function Deposit() {
     const [fetchingdata, setFetchingdata] = useState(true);
 
     // The logic here is going to completely change, as we now have to connect to the backend...
-    const [balance, setBalance] = useState(0);
+    const [balance, setBalance] = useState();
     const [accountNro, setAccountNro] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
     const [depositValue, setDepositValue] = useState("");
     const [deposit, setDeposit] = useState(null);
-    
+
     useEffect(() => {
-        const getBalance = () => {
-            getBankingDetails(user)
-                .then( (res) => {
-                    setAccountNro(res)
-                })
-            getBankingTransactions(user)
-                .then( (res) => {
-                    setBalance(res);
-                    setFetchingdata(false);
-                })
-            // setFetchingdata(true);
-            // const accNro = await getBankingDetails(user);
-            // setAccountNro(accNro);
-            // const currBalance = await getBankingTransactions(user);
-            // setBalance(currBalance);
-            // setFetchingdata(false);
+        const getBalance = async () => {
+            // getBankingDetails(user)
+            //     .then( (res) => {
+            //         setAccountNro(res)
+            //     })
+            // getBankingTransactions(user)
+            //     .then( (res) => {
+            //         console.log(res);
+            //         setBalance(res);
+            //         setFetchingdata(false);
+            //     })
+            setFetchingdata(true);
+            const accNro = await getBankingDetails(user);
+            setAccountNro(accNro);
+            const currBalance = await getBankingTransactions(user);
+            console.log(`CurrBal: ${currBalance}`);
+            setBalance(currBalance);
+            setFetchingdata(false);
         }
         getBalance();
     }, [user]);

@@ -12,11 +12,6 @@ function AccountSummary() {
     const [user,] = useAuthState(auth);
     const GreetingTxt = `Hello${user ? ', ' + user.displayName:' '}! \nWelcome to BadBank`;
     
-    if (user) {
-        console.log(user.getIdToken());
-        
-    }    
-    
     return (
         <Card 
             bgcolor="primary"
