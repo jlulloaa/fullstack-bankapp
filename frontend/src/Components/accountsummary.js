@@ -10,7 +10,8 @@ import { ButtonGroup } from 'react-bootstrap';
 
 function AccountSummary() {
     const [user,] = useAuthState(auth);
-    const GreetingTxt = `Hello${user ? ', ' + user.displayName:' '}! \nWelcome to BadBank`;
+
+    const GreetingTxt = `Hello${user.displayName ? ', ' + user.displayName:''}! \nWelcome to BadBank`;
     
     return (
         <Card 

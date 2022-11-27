@@ -71,9 +71,11 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     // Signed in 
     if (!auth.currentUser.displayName) {
       await updateProfile(auth.currentUser, {displayName: name});
+      postUser(auth.currentUser);//, 'EandP');
+    } else {
+      // Don't have to wait for updateProfile
+      postUser(auth.currentUser);//, 'EandP');
     }
-    console.log('New user sent to the backend...');
-    postUser(auth.currentUser);//, 'EandP');
   })
   .catch((error) => {
     Swal.fire({
