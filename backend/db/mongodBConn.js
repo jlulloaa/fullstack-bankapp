@@ -12,7 +12,7 @@
  const db = {};
 
  db.mongoose = mongoose;
- db.uri = process.env.MONGOOSE_URI + process.env.DBNAME + '?retryWrites=true';
+ db.uri = process.env.MONGOOSE_URI + process.env.DBNAME + '?retryWrites=true&w=majority';
  
  db.mongoose
     .connect(db.uri, {
@@ -20,7 +20,7 @@
         useUnifiedTopology: true
     })
     .then(() => {
-        console.log('Connected to the database!');
+        console.log(`Connected to the database! ${db.uri}`);
     })
     .catch(err => {
         console.log('Cannot connect to the database!', err);

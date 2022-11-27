@@ -79,7 +79,7 @@ function AllData() {
             <table ref={tableRef} className="table table-hover table-bordered">
                 <thead className="table-info align-middle" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll left to see more information">
                     <tr>
-                        <th> Date <br/><span style={{fontSize: '0.75em'}}>dd/MM/yy (hh:MM:ss)</span></th>
+                        <th> Date <br/><span style={{fontSize: '0.75em'}}>dd/mm/yy (hh:mm:ss)</span></th>
                         <th> Paid In </th>
                         <th> Paid Out </th>
                         <th> Balance </th>
