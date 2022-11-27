@@ -47,7 +47,12 @@ function Withdraw() {
                 setWithdrawal(parseInt(e.target.value));    
             } else {
                 // Not enough money to withdraw.
-                alert('Not enough money to withdraw', null, 2);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Operation not allowed',
+                    text: 'Not enough money to withdraw!',
+                    footer: 'Try with a different amount'
+                  })
                 setBtnDisabled(true);
             }
         } else {

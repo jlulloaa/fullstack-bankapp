@@ -1,17 +1,11 @@
-import { useEffect, useState} from 'react';
+import { useEffect} from 'react';
 import Card from './card';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { ToolTips } from './utils';
-// import { useCtx } from './context';
-// import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 import {auth, logOut } from './fir-login';
-import { useAuthState } from "react-firebase-hooks/auth";
 import { LoadingPage } from './utils';
 
 // Rather than using buttons to log in and sign up, use links to these pages and style them as buttons
-
 function Logout() {
-    // const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
         if (auth.currentUser) {

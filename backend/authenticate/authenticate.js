@@ -1,7 +1,6 @@
 // Let's try firebase for firAdmin the backend as well (see https://dev.to/bbarbour/creating-a-mern-stack-app-that-uses-firebase-authentication-part-one-31a7 and https://firebase.google.com/docs/firAdmin/setup)
 require('dotenv').config();
 const firAdmin = require('firebase-admin');
-// require('dotenv').config({path: './config/fir-env.env'});
 
 const serviceAccount = {
   type: process.env.FIREBASE_ADMIN_TYPE,
@@ -16,7 +15,6 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL
 };
 
-// const serviceAccount = require('../config/fir-env.json');
 firAdmin.initializeApp({
         credential: firAdmin.credential.cert(serviceAccount)
     });

@@ -53,7 +53,12 @@ function Transfer() {
                 setTransfer(parseInt(e.target.value));    
             } else {
                 // Not enough money to transfer.
-                alert('Not enough money to transfer', null, 2);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Operation not allowed',
+                    text: 'Not enough money to withdraw!',
+                    footer: 'Try with a different amount'
+                  })
                 setBtnDisabled(true);
             }
         } else {
@@ -72,7 +77,7 @@ function Transfer() {
             timestamp: now,
             receipt_email: receiptEmail
         }
-        const transferText = `We are going to transfer ${formatBalance(new_transaction.transact_amount)} to ${new_transaction.receipt_email}\nAfter this, your balance will be ${formatBalance(new_transaction.updated_balance)}`;
+        const transferText = `We are going to transfer ${formatBalance(new_transaction.transact_amount)} to ${new_transaction.receipt_email}. \nAfter this, your balance will be ${formatBalance(new_transaction.updated_balance)}`;
         Swal.fire({
             title: 'Please check and click TRANSFER to proceed',
             text: `${transferText}`,
