@@ -31,10 +31,13 @@ function Transfer() {
                     setBalance(res.currBalance);
                 })
             getAllEmail(user)
-                .then((res) => setRecipientList(res))
-            const currBalance = await getBankingTransactions(user);
-            setBalance(currBalance);
-            setFetchingdata(false);
+                .then((res) => {
+                    setRecipientList(res);
+                    setFetchingdata(false);
+                })
+            // const currBalance = await getBankingTransactions(user);
+            // setBalance(currBalance);
+            // setFetchingdata(false);
         }
         getBalance();
     }, [user]);
