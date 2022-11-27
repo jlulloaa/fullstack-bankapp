@@ -21,8 +21,6 @@ function Transfer() {
     const [transfer, setTransfer] = useState(null);
     const [recipientList, setRecipientList] = useState(null);
     const [receiptEmail, setReceiptEmail] = useState(null);
-    const [resetEmailList, setResetEmailList] = useState(null);
-
 
    useEffect(() => {
         const getBalance = async () => {
@@ -145,12 +143,6 @@ function Transfer() {
                                     onChange={selectEmail} value={receiptEmail}
                                     menuPlacement="top" placeholder="Click to select a recipient">
                                 </Select>
-                                {/* <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Click to select a recipient </button>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <option className="dropdown-item" >Action</option>
-                                    <option className="dropdown-item" >Another action</option>
-                                    <option className="dropdown-item" >Something else here</option>
-                                </div> */}
                                 </div>
                                 <label className="form-label mt-4">AMOUNT TO TRANSFER</label>
                                 <div className="input-group mb-3">
