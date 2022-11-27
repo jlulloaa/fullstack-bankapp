@@ -12,7 +12,7 @@ function Deposit() {
 
     const [user,] = useAuthState(auth);
     // Get user latest balance (main assumption is the latest transaction has the most up to date balance)
-    const [fetchingdata, setFetchingdata] = useState(false);
+    const [fetchingdata, setFetchingdata] = useState(true);
 
     // The logic here is going to completely change, as we now have to connect to the backend...
     const [balance, setBalance] = useState();
@@ -28,9 +28,9 @@ function Deposit() {
             setAccountNro(accNro);
             const currBalance = await getBankingTransactions(user);
             setBalance(currBalance);
+            setFetchingdata(false);
         }
         getBalance();
-        setFetchingdata(false);
     }, [user]);
 
     if (balance === undefined) {
@@ -83,7 +83,8 @@ function Deposit() {
           })
     }
 
-    return (<Card 
+    return (<> { fetchingdata ? <LoadingPage /> : <></>}   
+            <Card 
                 bgcolor="primary"
                 txtcolor="white"
                 header= <Header/>
@@ -92,7 +93,7 @@ function Deposit() {
                 body = { !user ? (
                     <Navigate replace to='/login'/>
                 ) : (
-                    <div> { fetchingdata ? <LoadingPage /> : <></>}
+                    <div> 
                         <label className="form-label mt-4">CURRENT BALANCE</label>
                         <div className="input-group mb-3" >
                             <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>
@@ -107,7 +108,7 @@ function Deposit() {
                         <ToolTips></ToolTips>
                     </div>
                 )}
-            />
+            /></>
     );
 }
 

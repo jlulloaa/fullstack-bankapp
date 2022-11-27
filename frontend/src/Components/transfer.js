@@ -32,9 +32,9 @@ function Transfer() {
                 .then((res) => setRecipientList(res))
             const currBalance = await getBankingTransactions(user);
             setBalance(currBalance);
+            setFetchingdata(false);
         }
         getBalance();
-        setFetchingdata(false);
     }, [user]);
 
     if (balance === undefined) {
@@ -106,43 +106,44 @@ function Transfer() {
         setReceiptEmail(selectedOption.label);
     }
 
-      return (
-        <Card 
-            bgcolor="primary"
-            txtcolor="white"
-            header=<Header/>
-            title="TRANSFER"
-            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can transfer money from your account Nro: {accountNro} <br/>to other people within BadBank</>}
-            body = {!user ? (
-                    <Navigate replace to='/login'/>
-                ) : (
-                    <div> { fetchingdata ? <LoadingPage /> : <></>}
-                    <label className="form-label mt-4">CURRENT BALANCE:</label>
-                    <div className="input-group mb-3" >
-                        <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>
-                    </div>
-                    <div>
-                    <label className="form-label"> RECIPIENT:</label><br/>
-                    <Select className="form-control badge bg-light" options={ recipientList } isSearchable={true} onChange={selectEmail} menuPlacement="top" placeholder="Click to select a recipient" autoFocus={false}></Select>
-                    {/* <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Click to select a recipient </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <option className="dropdown-item" >Action</option>
-                        <option className="dropdown-item" >Another action</option>
-                        <option className="dropdown-item" >Something else here</option>
-                    </div> */}
-                    </div>
-                    <label className="form-label mt-4">AMOUNT TO TRANSFER</label>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text">$</span>
-                        <input data-tip data-for="transferAmountTip" type="number" className="form-control" id="transferField" aria-label="Amount (to the nearest dollar)" value={transferValue} onChange={onChangeHandler}/>
-                        <span className="input-group-text">.00</span>
-                        <button data-tip data-for="transferClickTip" type="button" className="btn btn-success" id="transferClick" disabled={btndisabled}
-                        onClick={onClickHandler}>TRANSFER</button>
-                    </div>
-                    <ToolTips></ToolTips>
-                </div>
-            )}
-         />
+      return (<> { fetchingdata ? <LoadingPage /> : <></>}
+                <Card 
+                    bgcolor="primary"
+                    txtcolor="white"
+                    header=<Header/>
+                    title="TRANSFER"
+                    text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can transfer money from your account Nro: {accountNro} <br/>to other people within BadBank</>}
+                    body = {!user ? (
+                            <Navigate replace to='/login'/>
+                            ) : (
+                            <div>
+                                <label className="form-label mt-4">CURRENT BALANCE:</label>
+                                <div className="input-group mb-3" >
+                                    <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>
+                                </div>
+                                <div>
+                                <label className="form-label"> RECIPIENT:</label><br/>
+                                <Select className="form-control badge bg-light" options={ recipientList } isSearchable={true} onChange={selectEmail} menuPlacement="top" placeholder="Click to select a recipient" autoFocus={false}></Select>
+                                {/* <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Click to select a recipient </button>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <option className="dropdown-item" >Action</option>
+                                    <option className="dropdown-item" >Another action</option>
+                                    <option className="dropdown-item" >Something else here</option>
+                                </div> */}
+                                </div>
+                                <label className="form-label mt-4">AMOUNT TO TRANSFER</label>
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text">$</span>
+                                    <input data-tip data-for="transferAmountTip" type="number" className="form-control" id="transferField" aria-label="Amount (to the nearest dollar)" value={transferValue} onChange={onChangeHandler}/>
+                                    <span className="input-group-text">.00</span>
+                                    <button data-tip data-for="transferClickTip" type="button" className="btn btn-success" id="transferClick" disabled={btndisabled}
+                                    onClick={onClickHandler}>TRANSFER</button>
+                                </div>
+                                <ToolTips></ToolTips>
+                            </div>
+                        )}
+                />
+            </>
     );
 }
 

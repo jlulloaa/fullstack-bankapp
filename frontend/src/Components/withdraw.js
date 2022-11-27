@@ -26,9 +26,9 @@ function Withdraw() {
             setAccountNro(accNro);
             const currBalance = await getBankingTransactions(user);
             setBalance(currBalance);
+            setFetchingdata(false);
         }
         getBalance();
-        setFetchingdata(false);
     }, [user]);
 
     if (balance === undefined) {
@@ -94,33 +94,34 @@ function Withdraw() {
         })
     }
 
-      return (
-        <Card 
-            bgcolor="primary"
-            txtcolor="white"
-            header=<Header/>
-            title="WITHDRAWAL"
-            text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can withdraw funds from your account Nro: {accountNro}</>}
-            body = {!user ? (
-                    <Navigate replace to='/login'/>
-                ) : (
-                    <div> { fetchingdata ? <LoadingPage /> : <></>}
-                    <label className="form-label mt-4">CURRENT BALANCE</label>
-                    <div className="input-group mb-3" >
-                        <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>
-                    </div>
-                    <label className="form-label mt-4">WITHDRAW AMOUNT</label>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text">$</span>
-                        <input data-tip data-for="withdrawAmountTip" type="number" className="form-control" id="withdrawField" aria-label="Amount (to the nearest dollar)" value={withdrawValue} onChange={onChangeHandler}/>
-                        <span className="input-group-text">.00</span>
-                        <button data-tip data-for="withdrawClickTip" type="button" className="btn btn-success" id="withdrawClick" disabled={btndisabled}
-                        onClick={onClickHandler}>WITHDRAW</button>
-                    </div>
-                    <ToolTips></ToolTips>
-                </div>
-            )}
-         />
+      return(<> { fetchingdata ? <LoadingPage /> : <></>} 
+                <Card 
+                    bgcolor="primary"
+                    txtcolor="white"
+                    header=<Header/>
+                    title="WITHDRAWAL"
+                    text={<>Hello{user  ? <>, {user.displayName}! </> : <>! </>}<br/>Here you can withdraw funds from your account Nro: {accountNro}</>}
+                    body = {!user ? (
+                            <Navigate replace to='/login'/>
+                            ) : (
+                            <div>
+                                <label className="form-label mt-4">CURRENT BALANCE</label>
+                                <div className="input-group mb-3" >
+                                    <span className="form-control badge bg-light" disabled>{formatBalance(balance)}</span>
+                                </div>
+                                <label className="form-label mt-4">WITHDRAW AMOUNT</label>
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text">$</span>
+                                    <input data-tip data-for="withdrawAmountTip" type="number" className="form-control" id="withdrawField" aria-label="Amount (to the nearest dollar)" value={withdrawValue} onChange={onChangeHandler}/>
+                                    <span className="input-group-text">.00</span>
+                                    <button data-tip data-for="withdrawClickTip" type="button" className="btn btn-success" id="withdrawClick" disabled={btndisabled}
+                                    onClick={onClickHandler}>WITHDRAW</button>
+                                </div>
+                                <ToolTips></ToolTips>
+                            </div>
+                            )}
+                />
+            </>
     );
 }
 
