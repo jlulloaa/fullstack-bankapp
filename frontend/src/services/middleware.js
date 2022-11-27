@@ -114,7 +114,6 @@ const getBankingDetails = async (user) => {
     try
         {
             const bankDetails = await axios.get(urlReadBankData, {params: payload}, header);
-            console.log(bankDetails.data)
             const accountDetails = {accountNro: bankDetails.data.account[0].account_nro, 
                                     currBalance: bankDetails.data.history.at(-1).balance};
             return accountDetails;

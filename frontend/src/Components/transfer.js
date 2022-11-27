@@ -26,7 +26,10 @@ function Transfer() {
    useEffect(() => {
         const getBalance = async () => {
             getBankingDetails(user)
-                .then((res) => setAccountNro(res))
+                .then((res) => {
+                    setAccountNro(res.accountNro);
+                    setBalance(res.currBalance);
+                })
             getAllEmail(user)
                 .then((res) => setRecipientList(res))
             const currBalance = await getBankingTransactions(user);

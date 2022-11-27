@@ -21,10 +21,9 @@ function Withdraw() {
  
     useEffect(() => {
         const getBalance = async () => {
-            const accNro = await getBankingDetails(user);
-            setAccountNro(accNro);
-            const currBalance = await getBankingTransactions(user);
-            setBalance(currBalance);
+            const accountDetails  = await getBankingDetails(user);
+            setAccountNro(accountDetails.accountNro);
+            setBalance(accountDetails.currBalance);
             setFetchingdata(false);
         }
         getBalance();

@@ -23,21 +23,8 @@ function Deposit() {
 
     useEffect(() => {
         const getBalance = async () => {
-            // getBankingDetails(user)
-            //     .then( (res) => {
-            //         setAccountNro(res)
-            //     })
-            // getBankingTransactions(user)
-            //     .then( (res) => {
-            //         console.log(res);
-            //         setBalance(res);
-            //         setFetchingdata(false);
-            //     })
             const accountDetails  = await getBankingDetails(user);
             setAccountNro(accountDetails.accountNro);
-            console.log(accountDetails)
-            // const currBalance = await getBankingTransactions(user);
-            console.log(`CurrBal: ${accountDetails.currBalance}`);
             setBalance(accountDetails.currBalance);
             setFetchingdata(false);
         }

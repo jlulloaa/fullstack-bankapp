@@ -225,9 +225,9 @@ function getEmailList(req, res) {
                 return {label: doc.email, value: idx}; 
             });
             if(err){
-                res.json(err)
+                res.json(err) //{label:'', value:0});
             } else {
-                res.json(docs)
+                res.json(docs);
             }
         })
 }
