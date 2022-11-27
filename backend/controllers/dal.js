@@ -197,10 +197,10 @@ function readAll(req, res) {
 };
 
 function readBankDetails(req, res) {
-    UserSchema.find({email: req.query.email}, 'account')
+    UserSchema.find({email: req.query.email}, 'account history')
         .then((docs) => {
             try {
-                res.send(docs[0].account[0]);
+                res.send(docs[0]);
             } catch {
                 res.send(null);
             }

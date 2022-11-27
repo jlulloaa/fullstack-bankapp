@@ -33,12 +33,12 @@ function Deposit() {
             //         setBalance(res);
             //         setFetchingdata(false);
             //     })
-            setFetchingdata(true);
-            const accNro = await getBankingDetails(user);
-            setAccountNro(accNro);
-            const currBalance = await getBankingTransactions(user);
-            console.log(`CurrBal: ${currBalance}`);
-            setBalance(currBalance);
+            const accountDetails  = await getBankingDetails(user);
+            setAccountNro(accountDetails.accountNro);
+            console.log(accountDetails)
+            // const currBalance = await getBankingTransactions(user);
+            console.log(`CurrBal: ${accountDetails.currBalance}`);
+            setBalance(accountDetails.currBalance);
             setFetchingdata(false);
         }
         getBalance();
