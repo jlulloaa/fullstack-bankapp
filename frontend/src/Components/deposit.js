@@ -15,7 +15,7 @@ function Deposit() {
     const [fetchingdata, setFetchingdata] = useState(true);
 
     // The logic here is going to completely change, as we now have to connect to the backend...
-    const [balance, setBalance] = useState();
+    const [balance, setBalance] = useState(0);
     const [accountNro, setAccountNro] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
     const [depositValue, setDepositValue] = useState("");
@@ -33,9 +33,9 @@ function Deposit() {
         getBalance();
     }, [user]);
 
-    if (balance === undefined) {
-        setBalance(null);
-    }
+    // if (balance === undefined) {
+    //     setBalance(null);
+    // }
 
     const onChangeHandler = (e)=>{
         e.preventDefault();

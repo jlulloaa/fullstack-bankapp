@@ -54,14 +54,13 @@ const signInWithGoogle = async () => {
       })
       .catch((err) => {
         console.error(err);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Oops...',
-        //   text: 'Something went wrong!',
-        //   footer: '<a href="/">Why do I have this issue?</a>'
-        // })
-        alert(err.message);
-        // return false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot Sign you in',
+          text: 'Please try again',
+          footer: "<a href='/'>Don't have an account? Click to register</a>"
+        })
+        // alert(err.message);
       });
 };
 
@@ -118,18 +117,6 @@ const logOut = async() => {
     .catch((error) => {return false} )
 };
 
-// const logOut = () => {
-//   signOut(auth)
-//    .then(()=> {
-//       console.log("Successfully logged out")
-//       return true
-//    })
-//    .catch((err)=> {
-//       console.log(err)
-//       return false
-//    });
-// };
-
 
 const removeUser = async() => {
   await deleteUser(auth.currentUser)
@@ -163,9 +150,8 @@ onAuthStateChanged(auth, (user) => {
             icon: 'error',
             title: 'Session expired',
             text: 'Please login again',
-            footer: `${parseInt(process.env.REACT_APP_SESSION_TIMEOUT)/60}[min] Timeout`
+            footer: `Timeout is set to ${parseInt(process.env.REACT_APP_SESSION_TIMEOUT)/60}min`
           })  
-          // alert('Session expired, please login again '+ parseInt(process.env.REACT_APP_SESSION_TIMEOUT));
           auth.signOut()}, 
           millisecondsUntilExpiration);
     });
