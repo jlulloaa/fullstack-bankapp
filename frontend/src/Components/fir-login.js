@@ -159,7 +159,13 @@ onAuthStateChanged(auth, (user) => {
       const millisecondsUntilExpiration = sessionDuration - (Date.now() - authTime);
       
       sessionTimeout = setTimeout(() => {
-          alert('Session expired, please login again '+ parseInt(process.env.REACT_APP_SESSION_TIMEOUT));
+          Swal.fire({
+            icon: 'error',
+            title: 'Session expired',
+            text: 'Please login again',
+            footer: `${parseInt(process.env.REACT_APP_SESSION_TIMEOUT)/60}[min] Timeout`
+          })  
+          // alert('Session expired, please login again '+ parseInt(process.env.REACT_APP_SESSION_TIMEOUT));
           auth.signOut()}, 
           millisecondsUntilExpiration);
     });
