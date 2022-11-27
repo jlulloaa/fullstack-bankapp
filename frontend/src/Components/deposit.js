@@ -4,7 +4,7 @@ import { formatBalance, ToolTips } from './utils';
 import Card from './card';
 import { auth } from './fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {getBankingTransactions, postNewTransaction, getBankingDetails} from '../services/middleware';
+import {postNewTransaction, getBankingDetails} from '../services/middleware';
 import { LoadingPage, Header } from './utils';
 import Swal from 'sweetalert2';
 
