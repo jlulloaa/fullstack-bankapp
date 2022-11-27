@@ -12,7 +12,7 @@ function Withdraw() {
 
     const [user,] = useAuthState(auth);
 
-    const [fetchingdata, setFetchingdata] = useState(false);
+    const [fetchingdata, setFetchingdata] = useState(true);
     const [balance, setBalance] = useState();
     const [accountNro, setAccountNro] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
@@ -21,7 +21,6 @@ function Withdraw() {
  
     useEffect(() => {
         const getBalance = async () => {
-            setFetchingdata(true);
             const accNro = await getBankingDetails(user);
             setAccountNro(accNro);
             const currBalance = await getBankingTransactions(user);

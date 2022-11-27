@@ -44,9 +44,9 @@ function Deposit() {
         getBalance();
     }, [user]);
 
-    // if (balance === undefined) {
-    //     setBalance(null);
-    // }
+    if (balance === undefined) {
+        setBalance(null);
+    }
 
     const onChangeHandler = (e)=>{
         e.preventDefault();

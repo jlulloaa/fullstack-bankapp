@@ -13,7 +13,7 @@ function Transfer() {
 
     const [user,] = useAuthState(auth);
 
-    const [fetchingdata, setFetchingdata] = useState(false);
+    const [fetchingdata, setFetchingdata] = useState(true);
     const [balance, setBalance] = useState(); 
     const [accountNro, setAccountNro] = useState();
     const [btndisabled, setBtnDisabled] = useState(true);
@@ -25,7 +25,6 @@ function Transfer() {
 
    useEffect(() => {
         const getBalance = async () => {
-            setFetchingdata(true);
             getBankingDetails(user)
                 .then((res) => setAccountNro(res))
             getAllEmail(user)
