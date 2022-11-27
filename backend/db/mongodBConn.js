@@ -13,9 +13,12 @@
 
  db.mongoose = mongoose;
  db.uri = process.env.MONGOOSE_URI + process.env.DBNAME + '?retryWrites=true&w=majority';
- 
+
  db.mongoose
-    .connect(db.uri)
+    .connect(db.uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
     .then(() => {
         console.log('Connected to the database!');
     })

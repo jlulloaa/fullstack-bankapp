@@ -21,6 +21,7 @@ function Transfer() {
     const [transfer, setTransfer] = useState(null);
     const [recipientList, setRecipientList] = useState(null);
     const [receiptEmail, setReceiptEmail] = useState(null);
+    const [resetEmailList, setResetEmailList] = useState(null);
 
 
    useEffect(() => {
@@ -50,13 +51,13 @@ function Transfer() {
         e.preventDefault();
         setTransferValue(e.target.value);
         if (parseInt(e.target.value) > 0) {
-            // Is a valid numeric format, let see if the transfer can be covered with the balance:
+            // Is a valid numeric format, let see if the transfer can be covered with the balance and there is a valid email to transfer to
             let rem = balance - parseInt(e.target.value);
-            if (rem > 0 ) {
+            if ((rem > 0 )) {
                 // Yes, there are enough funds to complete the operation
                 setBtnDisabled(false);
                 setTransfer(parseInt(e.target.value));
-            } else if (rem <= 0){
+            } else {
                 // Not enough money to transfer.
                 Swal.fire({
                     icon: 'error',
@@ -64,8 +65,6 @@ function Transfer() {
                     text: 'Not enough money to withdraw!',
                     footer: 'Try with a different amount'
                   })
-                setBtnDisabled(true);
-            } else if (receiptEmail) {
                 setBtnDisabled(true);
             }
         } else {
@@ -76,13 +75,23 @@ function Transfer() {
     const onClickHandler = () => {
         let now = new Date();
         console.log(receiptEmail);
+        if (!receiptEmail) {
+            // Not a valid destination email
+            console.log('hello')
+            Swal.fire({
+                icon: 'warning',
+                title: 'No recipient',
+                text: 'Please select an email from the list',
+                footer: ''
+              })
+        }
         const new_transaction = { 
             user: user,
             transact_type: 'transferout',
             transact_amount: transfer,
             updated_balance: balance - transfer,
             timestamp: now,
-            receipt_email: receiptEmail
+            receipt_email: receiptEmail.label
         }
         const transferText = `We are going to transfer ${formatBalance(new_transaction.transact_amount)} to ${new_transaction.receipt_email}. \nAfter this, your balance will be ${formatBalance(new_transaction.updated_balance)}`;
         Swal.fire({
@@ -99,6 +108,7 @@ function Transfer() {
                 setBalance(balance - transfer);
                 setTransfer(null);
                 setTransferValue("");
+                setReceiptEmail(null);
                 setBtnDisabled(true);
                 Swal.fire(
                 'Congratulations!',
@@ -110,7 +120,7 @@ function Transfer() {
     }
     
     const selectEmail = (selectedOption) => {
-        setReceiptEmail(selectedOption.label);
+        setReceiptEmail(selectedOption);
     }
 
       return (<> { fetchingdata ? <LoadingPage /> : <></>}
@@ -130,7 +140,11 @@ function Transfer() {
                                 </div>
                                 <div>
                                 <label className="form-label"> RECIPIENT:</label><br/>
-                                <Select className="form-control badge bg-light" options={ recipientList } isSearchable={true} onChange={selectEmail} menuPlacement="top" placeholder="Click to select a recipient" autoFocus={false}></Select>
+                                <Select className="form-control badge bg-light" 
+                                    options={ recipientList } isSearchable={true}
+                                    onChange={selectEmail} value={receiptEmail}
+                                    menuPlacement="top" placeholder="Click to select a recipient">
+                                </Select>
                                 {/* <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Click to select a recipient </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <option className="dropdown-item" >Action</option>
