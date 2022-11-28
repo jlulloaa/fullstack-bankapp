@@ -9,10 +9,6 @@ import {
 import { HashRouter  as Router } from 'react-router-dom';
 // In the class' video, they used HashRouter, but in this article, it is recommended to use BrowserRouter instead, and only if strictly necessary, use HashBrowser
 
-// Define context - As read in here: separate the UserContext in a different file, may provide more flexibility when adding a backend
-// const UserContext = React.createContext(null);
-import UserContext from './Components/context';
-
 import Home from './Components/home';
 import Deposit from './Components/deposit';
 import Transfer from './Components/transfer';
@@ -31,12 +27,11 @@ import Footer from './Components/footer';
 import './styles/App.css';
 import { Container } from 'react-bootstrap';
 
-import { onAuthStateChanged, setPersistence, browserSessionPersistence } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Components/fir-login';
 
 import { useState, useEffect } from 'react';
 
-setPersistence(auth, browserSessionPersistence);
 // the syntax here is quite different to the one presented in the videos, most probably because they are outdated and were made before react-router-dom v6. See this thread https://stackoverflow.com/questions/69832748/error-error-a-route-is-only-ever-to-be-used-as-the-child-of-routes-element
 // and this article: https://reactrouter.com/docs/en/v6/getting-started/concepts
 function App() {
@@ -53,7 +48,6 @@ function App() {
     });
   }, [user]);
 
-  const isLoading = false;
 
   // As learned from this blog (https://dmitripavlutin.com/react-context-and-usecontext/), all components that'll consume the context, have to be wrapped inside the Provider
   return (
@@ -68,7 +62,6 @@ function App() {
         <NavBar />
         {user ? <div style={{display: 'flex', justifyContent: 'right'}}>{(user.displayName)} ({(user.email)})</div> : <></>}
         <hr/>
-        <UserContext.Provider value = { isLoading }>
           <Routes>
             <Route path="/" exact element={<Home/>} />
             <Route path="/createAccount" exact element={<CreateAccount/>} />
@@ -83,7 +76,6 @@ function App() {
             <Route path="/products" exact element={<Products/>} />
             <Route path="/reset" exact element={<Reset/>} />
           </Routes>
-        </UserContext.Provider>
         <Footer />
     </Router>
   </Container>

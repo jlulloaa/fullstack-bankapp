@@ -88,7 +88,7 @@ Routers.get('/api', dbCRUD.welcome);
  *                             _id: 63840f16203f0feedcf84c27
  *                           
  */
-Routers.get('/api/readall', dbCRUD.readAll);
+Routers.get('/api/readall', verifyToken, dbCRUD.readAll);
 
 /** GETEMAILLIST
  * @swagger
@@ -127,7 +127,7 @@ Routers.get('/api/readall', dbCRUD.readAll);
  *                           - label: jose@ulloa.cl
  *                             value: 0
  */
-Routers.get('/api/getallemail', dbCRUD.getEmailList);
+Routers.get('/api/getallemail', verifyToken, dbCRUD.getEmailList);
 
 /** CREATE
  * @swagger
@@ -222,7 +222,7 @@ Routers.post('/api/create', dbCRUD.createUser);
  *          '201':
  *            description: Transfer stored successfully
 */
-Routers.post('/api/addtransaction', dbCRUD.createTransaction, verifyToken);
+Routers.post('/api/addtransaction', verifyToken, dbCRUD.createTransaction); //, verifyToken);
 
 /** READONE
  * @swagger
@@ -281,7 +281,7 @@ Routers.post('/api/addtransaction', dbCRUD.createTransaction, verifyToken);
  *                             balance: 293984
  *                             _id: 63840f16203f0feedcf84c27
  */
-Routers.get('/api/readone', dbCRUD.readOne, verifyToken);
+Routers.get('/api/readone', verifyToken, dbCRUD.readOne); //, verifyToken);
 
 /** CHECKUSER
  * @swagger
@@ -306,7 +306,7 @@ Routers.get('/api/readone', dbCRUD.readOne, verifyToken);
  *              content:
  *              type: boolean
 */
-Routers.get('/api/isuser', dbCRUD.checkUser, verifyToken);
+Routers.get('/api/isuser', verifyToken, dbCRUD.checkUser);
 
 /** READBANKDETAILS
  * @swagger
@@ -389,7 +389,7 @@ Routers.get('/api/isuser', dbCRUD.checkUser, verifyToken);
  *                               balance: 0
  *                               _id: 638357ef6a1caed78d25000b
  */
-Routers.get('/api/readbankdetails', dbCRUD.readBankDetails, verifyToken)
+Routers.get('/api/readbankdetails', verifyToken, dbCRUD.readBankDetails); //, verifyToken)
 // 
 Routers.get(/api/)
 // Not yet implemented

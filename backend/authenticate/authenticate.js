@@ -19,15 +19,14 @@ firAdmin.initializeApp({
         credential: firAdmin.credential.cert(serviceAccount)
     });
 
+
 function verifyToken(req, res, next) {
     try {
       const idToken = req.headers.authorization;
       firAdmin.auth().verifyIdToken(idToken)
-        .then(() => {next()})
+        .then(function() {next()})
     } catch (err) {
-      console.log('Cannot verify token');
-      console.log(`Cannot verify token (${err})`);
-      res.send('Authentication error! (' + err + ')');
+      res.status(401).send('Invalid token');
     }
   }
 

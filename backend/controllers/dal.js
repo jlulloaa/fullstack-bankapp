@@ -6,6 +6,8 @@
  * Contains the functions to query the database through the connection provided by conn.js
  */
  const { UserSchema } = require('../models/schemas');
+ const { verifyToken } = require('../authenticate/authenticate');
+
 /** A good source to learn how to shape the CRUD operations, is the official mongodb tutorials:
 // https://www.mongodb.com/developer/languages/javascript/node-connect-mongodb/
 // https://www.mongodb.com/developer/languages/javascript/node-crud-tutorial/
@@ -98,11 +100,12 @@ async function checkUser(req, res) {
  * 
  */
 
-function createTransaction(req, res) {
+async function createTransaction(req, res) {
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!" });
         return;
     }
+
     const newTransaction = { 
         timestamp: req.body.timestamp,
         account_nro: req.body.account_nro,
@@ -114,7 +117,7 @@ function createTransaction(req, res) {
     let proceed = true;
     if (newTransaction.transaction_type === 'transferout') {
         // Update deposit into receipt user
-        UserSchema.findOne({email: req.body.receipt_email}, 'history account')
+        await UserSchema.findOne({email: req.body.receipt_email}, 'history account')
             .then((doc) => {
                 try {
                     const receiptTransfer = {timestamp: newTransaction.timestamp,
@@ -139,7 +142,7 @@ function createTransaction(req, res) {
             })
         }
     if (proceed) {
-        UserSchema.findOneAndUpdate({email: req.body.user.email}, { $push: { history: newTransaction } })
+        await UserSchema.findOneAndUpdate({email: req.body.user.email}, { $push: { history: newTransaction } })
             .then(data => {
                 res.status(201).send(data);
             })
@@ -157,8 +160,8 @@ function createTransaction(req, res) {
  * @return {void} no output returned
  * 
  */
- function readOne(req, res) {
-    UserSchema.findOne({email: req.query.email}, 'history')
+ async function readOne(req, res) {
+    await UserSchema.findOne({email: req.query.email}, 'history')
         .then((doc) => {
             try {
                 const lastTransaction = doc.history.at(-1);
@@ -180,8 +183,8 @@ function createTransaction(req, res) {
  * 
  * I'm following the best practices of using promises, as suggested by Express documentation https://expressjs.com/en/advanced/best-practice-performance.html#use-promises
  */ 
-function readAll(req, res) {
-    UserSchema.find({email: req.query.email}, 'history')
+async function readAll(req, res) {
+    await UserSchema.find({email: req.query.email}, 'history')
         .then((docs) => {
             try{
                 res.status(200).send(docs[0].history);
@@ -196,8 +199,8 @@ function readAll(req, res) {
         });
 };
 
-function readBankDetails(req, res) {
-    UserSchema.find({email: req.query.email}, 'account history')
+async function readBankDetails(req, res) {
+    await UserSchema.find({email: req.query.email}, 'account history')
         .then((docs) => {
             try {
                 res.send(docs[0]);
@@ -217,7 +220,7 @@ function readBankDetails(req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function getEmailList(req, res) {
+async function getEmailList(req, res) {
     UserSchema.find({ email: {$ne: req.query.email}}, 'email')
         .select( 'email' )
         .exec(function(err, docs){

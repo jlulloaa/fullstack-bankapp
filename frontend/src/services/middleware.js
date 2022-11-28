@@ -16,19 +16,15 @@ const urlReadBankData = `${process.env.REACT_APP_API_URL}/readbankdetails`;
 
 const createToken = async (user) => {
     const token = user && (await user.getIdToken());
-    // console.log(`Create-Token User is ${user}`);
-    const payloadHeader = {
-      headers: {
+    const headers = {
         'Content-Type': 'application/json',
         'Authorization': token,
-      }
     };
-    return payloadHeader;
+    return headers;
   }
 
 // Post New User data
 const postUser = async (user) => {
-    const header = await createToken(user);
     const payload = { 
         user: {
             name: user.name ? user.name : user.displayName,
@@ -37,7 +33,8 @@ const postUser = async (user) => {
         }
     }
     // Check the email is not in use in the dB:
-    const inUse = await axios.get(urlCheckUserExists, {params: {email: user.email}}, header);
+    const header = await createToken(user);   
+    const inUse = await axios.get(urlCheckUserExists, {params: {email: user.email}, headers: header});
     if (!inUse.data) {
         console.log('Creating new user...');
         axios.post(urlAddUser, payload)
@@ -46,7 +43,6 @@ const postUser = async (user) => {
                 return res.data;
             })
             .catch((err) => {
-                console.error(`PostNewUser error: ${err}`);
                 removeUser();
                 logOut();
                 alert(`Cannot create new User ${err}`);
@@ -69,8 +65,7 @@ const postNewTransaction = async (userData) => {
     }
     try {
         console.log(`Adding new data to history transaction...`);
-        const res = await axios.post(urlAddTransaction, payload, header);
-        console.log(`Received something ${res.data}`)
+        const res = await axios.post(urlAddTransaction, payload, {headers:header}); //{data: payload, headers: header});
         return res.data;
     } catch (err) {
         console.error(`postNewTransaction error: ${err}`);
@@ -80,10 +75,11 @@ const postNewTransaction = async (userData) => {
 //   Get all data
 const getAllBankingData = async (user) => {
     const header = await createToken(user);
+    console.log(header)
     const payload = {email: user.email}
     try 
         {
-            const res = await axios.get(urlReadAllData, {params: payload}, header);
+            const res = await axios.get(urlReadAllData, {params: payload, headers: header});
             return res.data;
         } 
     catch (err) 
@@ -98,7 +94,7 @@ const getBankingTransactions = async (user) => {
     const payload = {email: user.email};
     try
         {
-            const history = await axios.get(urlReadSingleData, {params: payload}, header);
+            const history = await axios.get(urlReadSingleData, {params: payload, headers: header});
             const currBalance = history.data.balance;
             return currBalance;
         }
@@ -114,7 +110,7 @@ const getBankingDetails = async (user) => {
     const payload = {email: user.email};
     try
         {
-            const bankDetails = await axios.get(urlReadBankData, {params: payload}, header);
+            const bankDetails = await axios.get(urlReadBankData, {params: payload, headers: header});
             const accountDetails = {accountNro: bankDetails.data.account[0].account_nro, 
                                     currBalance: bankDetails.data.history.at(-1).balance};
             return accountDetails;
@@ -130,14 +126,12 @@ const getAllEmail = async (user) => {
     const header = await createToken(user);
     const payload = {email: user.email};
     try {
-        const res = await axios.get(urlGetAllEmail, {params: payload}, header);
+        const res = await axios.get(urlGetAllEmail, {params: payload, headers: header});
         return res.data;
     }
     catch (err) {
-        console.log();
+        console.log(`getAllEmail error (${err})`);
     }
 }
-
-
 
 export {postUser, createToken, getAllBankingData, getAllEmail, getBankingTransactions, postNewTransaction, getBankingDetails} //, postNewTransfer}

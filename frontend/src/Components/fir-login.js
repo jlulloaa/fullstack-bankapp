@@ -15,11 +15,6 @@ import { postUser } from '../services/middleware';
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import Swal from 'sweetalert2'
 
-
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -34,13 +29,8 @@ const firebaseConfig = {
 
 // Initialize Firebase (make sure any other service is loaded AFTER calling initializeApp)
 const firebaseApp = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-// const dbusrs = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 setPersistence(auth, browserSessionPersistence);
-
-// const googlanalytics = getAnalytics(firebaseApp);
-// const dbusr = getFirestore();
 
 // Signup with Google Account:
 const googleProvider = new GoogleAuthProvider();
@@ -60,7 +50,6 @@ const signInWithGoogle = async () => {
           text: 'Please try again',
           footer: "<a href='/'>Don't have an account? Click to register</a>"
         })
-        // alert(err.message);
       });
 };
 
@@ -102,7 +91,6 @@ const logInWithEmailAndPassword = async (email, password) => {
         text: 'email/password incorrect!',
         footer: "<a href='/'> Don't have an account? Click to register</a>"
       })
-      // alert(err.message);
     })
 };
 

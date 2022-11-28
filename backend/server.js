@@ -39,17 +39,17 @@ const swaggerDefinitions = {
           description,
           title: 'BadBank Full Stack Application - API Definitions',
           version,
-      },
-      schemes: ['https'],
-      components: {
-        securitySchemes: {
-          basicAuth:  {
-            type: 'http',
-            scheme: 'basic'
-          }
-        }
-      },
-  },
+        },
+      // components: {
+      //   schemes: ['https'],
+      //   securitySchemes: {
+      //     basicAuth:  {
+      //       type: 'http',
+      //       scheme: 'basic'
+      //     }
+      //   }
+      // },
+    },
   apis: [`${__dirname}/routes/routes.js`, 
   `${__dirname}/controllers/dal.js`,
   `${__dirname}/models/schemas.js`]
