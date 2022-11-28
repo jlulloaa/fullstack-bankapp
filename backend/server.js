@@ -41,6 +41,14 @@ const swaggerDefinitions = {
           version,
       },
       schemes: ['https'],
+      components: {
+        securitySchemes: {
+          basicAuth:  {
+            type: 'http',
+            scheme: 'basic'
+          }
+        }
+      },
   },
   apis: [`${__dirname}/routes/routes.js`, 
   `${__dirname}/controllers/dal.js`,

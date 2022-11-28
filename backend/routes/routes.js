@@ -133,6 +133,8 @@ Routers.get('/api/getallemail', dbCRUD.getEmailList);
  * @swagger
  * /api/create:
  *  post:
+ *      security: 
+ *        - basicAuth: []
  *      summary: (callback function is dal.createUser(req, res))
  *      tags:
  *          - createUser
@@ -169,6 +171,8 @@ Routers.post('/api/create', dbCRUD.createUser);
  * @swagger
  * /api/addtransaction:
  *  post:
+ *      security: 
+ *        - basicAuth: []
  *      summary: (callback function is dal.createTransaction(req, res))
  *      tags:
  *          - createTransaction
@@ -283,6 +287,8 @@ Routers.get('/api/readone', dbCRUD.readOne, verifyToken);
  * @swagger
  * /api/isuser:
  *  get:
+ *      security: 
+ *        - basicAuth: []
  *      summary: (callback function is dal.checkUser(req, res))
  *      tags:
  *          - checkUser
@@ -306,6 +312,8 @@ Routers.get('/api/isuser', dbCRUD.checkUser, verifyToken);
  * @swagger
  * /api/readbankdetails:
  *  get:
+ *      security: 
+ *        - basicAuth: []
  *      summary: (callback function is dal.readBankDetails(req, res))
  *      tags:
  *          - readBankDetails
