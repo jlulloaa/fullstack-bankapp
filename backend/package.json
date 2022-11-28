@@ -1,5 +1,5 @@
 {
-  "name": "BadBank Backend",
+  "name": "bbbackend",
   "version": "1.0.0",
   "description": "BadBank Fullstack application - Backend components",
   "main": "server.js",
