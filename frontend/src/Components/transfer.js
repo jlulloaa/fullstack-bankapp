@@ -72,7 +72,6 @@ function Transfer() {
 
     const onClickHandler = () => {
         let now = new Date();
-        console.log(receiptEmail);
         if (!receiptEmail) {
             // Not a valid destination email
             console.log('hello')
@@ -85,6 +84,7 @@ function Transfer() {
         }
         const new_transaction = { 
             user: user,
+            account_nro: accountNro,
             transact_type: 'transferout',
             transact_amount: transfer,
             updated_balance: balance - transfer,

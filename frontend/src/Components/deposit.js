@@ -51,6 +51,7 @@ function Deposit() {
         // The new functionality 'at(index)' allows to get the last element by setting index=-1 (ES2022):
         const new_transaction = { 
             user: user,
+            account_nro: accountNro,
             transact_type: 'deposit',
             transact_amount: deposit,
             updated_balance: balance + deposit,

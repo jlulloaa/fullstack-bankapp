@@ -60,6 +60,7 @@ const postNewTransaction = async (userData) => {
     const header = await createToken(userData.user);
     const payload = {
         user: userData.user,
+        account_nro: userData.account_nro,
         transaction_type : userData.transact_type,
         transaction_amount: userData.transact_amount,
         updated_balance: userData.updated_balance,
@@ -91,7 +92,7 @@ const getAllBankingData = async (user) => {
         }
   }
 
-//   Get history transactions, based the email (is unique for the dB users)
+//   Get history transactions, based on the email (is unique for the dB users)
 const getBankingTransactions = async (user) => {
     const header = await createToken(user);
     const payload = {email: user.email};

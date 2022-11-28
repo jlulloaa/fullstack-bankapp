@@ -25,8 +25,7 @@ const TransactionSchema = Schema (
             transaction_amount: Number,
             transfer_from: {type: String, required: false},
             transfer_to: {type: String, required: false},
-            balance: Number,
-            account_from: {type: Number, required:false}
+            balance: Number
         }
     )
     // );

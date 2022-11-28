@@ -62,6 +62,7 @@ function Withdraw() {
         let now = new Date();
         const new_transaction = { 
             user: user,
+            account_nro: accountNro,
             transact_type: 'withdrawal',
             transact_amount: withdrawal,
             updated_balance: balance - withdrawal,

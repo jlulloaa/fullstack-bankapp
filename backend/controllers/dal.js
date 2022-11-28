@@ -1,20 +1,21 @@
-/** Data Abstraction Layer for MongoDB
+/** 
+ * 
+ * Data Abstraction Layer for MongoDB
  * Review this link to check which functions can use on the database
  * https://mongoosejs.com/docs/api/model.html
  * Contains the functions to query the database through the connection provided by conn.js
  */
-const { UserSchema } = require('../models/schemas');
-
+ const { UserSchema } = require('../models/schemas');
 /** A good source to learn how to shape the CRUD operations, is the official mongodb tutorials:
 // https://www.mongodb.com/developer/languages/javascript/node-connect-mongodb/
 // https://www.mongodb.com/developer/languages/javascript/node-crud-tutorial/
  */ 
-
 /** WELCOME
- * Just a simple welcome message usable for multiple purposes
- * @param {void} no input required
- * @return {void} no output returned
+ * Simple "Welcome message" to test the endpoint is up and running
+ * @param {void}
+ * @return {void}
  */
+
 function welcome(req, res) {
     res.status(200).send('Welcome to BadBank API');
 }
@@ -60,7 +61,7 @@ async function createUser(req, res) {
         newUser
             .save()
             .then(data => {
-                res.send(data);
+                res.status(201).send(data);
             })
             .catch(err => {
                 res.status(500).send({
@@ -104,7 +105,7 @@ function createTransaction(req, res) {
     }
     const newTransaction = { 
         timestamp: req.body.timestamp,
-        account_nro: req.body.user.account_nro,
+        account_nro: req.body.account_nro,
         transaction_type:req.body.transaction_type,
         transaction_amount:req.body.transaction_amount,
         transfer_to: req.body.receipt_email,
@@ -116,11 +117,10 @@ function createTransaction(req, res) {
         UserSchema.findOne({email: req.body.receipt_email}, 'history account')
             .then((doc) => {
                 try {
-                    console.log(`Receipt is ${req.body.receipt_email}`);
                     const receiptTransfer = {timestamp: newTransaction.timestamp,
                                              transaction_type: 'transferin',
                                              transfer_from: req.body.user.email,
-                                             account_nro: doc.account.account_nro,
+                                             account_nro: doc.account[0].account_nro,
                                              transaction_amount: newTransaction.transaction_amount,
                                              balance: doc.history.at(-1).balance + newTransaction.transaction_amount
                                             };
@@ -141,7 +141,7 @@ function createTransaction(req, res) {
     if (proceed) {
         UserSchema.findOneAndUpdate({email: req.body.user.email}, { $push: { history: newTransaction } })
             .then(data => {
-                res.send(data);
+                res.status(201).send(data);
             })
             .catch(err => {
                 res.status(500).send({
@@ -174,7 +174,7 @@ function createTransaction(req, res) {
         });
 };
 /** READALL
- * list all users (For details about toArray() new syntax see https://tpiros.dev/blog/deprecation-warnings-in-mongodbs-node-js-api/)
+ * 
  * @param {void} no input argument required
  * @return {void} no output returned
  * 
@@ -184,9 +184,9 @@ function readAll(req, res) {
     UserSchema.find({email: req.query.email}, 'history')
         .then((docs) => {
             try{
-                res.send(docs[0].history);
+                res.status(200).send(docs[0].history);
             } catch {
-                res.send(null);
+                res.status(200).send(null);
             }
         })
         .catch((err) => {
