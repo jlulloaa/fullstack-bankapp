@@ -129,101 +129,6 @@ Routers.get('/api/readall', verifyToken, dbCRUD.readAll);
  */
 Routers.get('/api/getallemail', verifyToken, dbCRUD.getEmailList);
 
-/** CREATE
- * @swagger
- * /api/create:
- *  post:
- *      security: 
- *        - basicAuth: []
- *      summary: (callback function is dal.createUser(req, res))
- *      tags:
- *          - createUser
- *      description: | 
- *                  - Create a new user (see schema UserSchema). 
- *                  - Users creation is handled in Firebase. 
- *                  - Once a user is created there, it is transferred to the backend. 
- *                  - Users can access their accounts with an email/password combination or via a google account, if using the latter, the user can already exists in the backend
- *                  
- *                  This API handles user creation in the backend (not in Firebase). It first checks the user doesn't already exist, in which case, it creates the user by POSTing it
- *      requestBody:
- *            required: true
- *            content:
- *                application/json:
- *                   schema: 
- *                      type: object
- *                      properties: 
- *                        user: 
- *                          type: object
- *                          properties:
- *                            name:
- *                              type: string 
- *                              description: User name
- *                            email:
- *                              type: string 
- *                              description: User's email
- *      responses:
- *          '201':
- *            description: Account created successfully
- */
-Routers.post('/api/create', dbCRUD.createUser);
-
-/** CREATE
- * @swagger
- * /api/addtransaction:
- *  post:
- *      security: 
- *        - basicAuth: []
- *      summary: (callback function is dal.createTransaction(req, res))
- *      tags:
- *          - createTransaction
- *      description: | 
- *          Adds a new transaction that can be deposit, withdrawal or transfer. In the latter case, a counterpart is added from the receipt email. In this case, a secondary search is performed to retrieve the destination account for the transfer. A user can only generate a transfer out.
- *      requestBody:
- *              required: true
- *              content:
- *                  application/json:
- *                     schema:
- *                        type: object
- *                        properties:
- *                          user: 
- *                            type: object
- *                            properties:
- *                              name:
- *                                type: string 
- *                                description: User name
- *                              email:
- *                                type: string 
- *                                description: User's email
- *                          timestamp: 
- *                            type: string 
- *                            description: Current timestamp
- *                          account_nro: 
- *                            type: number 
- *                            description: Account Nro of the corresponding transaction 
- *                          transaction_type: 
- *                            type: string
- *                            description: can be setup, deposit, withdrawal, transferin or transferout
- *                          transaction_amount: 
- *                            type: number
- *                            description: Amount of the transaction
- *                          transfer_to:
- *                            type: string
- *                            description: Email of the receptor account where transfer goes to (if the transaction was a transfer, otherwise, is null)
- *                          transfer_from:
- *                            type: string
- *                            description: Email of the receptor account where transfer goes to (if the transaction was a transfer, otherwise, is null)
- *                          receipt_email:
- *                            type: string 
- *                            description: If a transfer out, this is the destination email where to deposit
- *                          balance: 
- *                            type: number
- *                            description: Balance in the account after correcting by the amount of the transaction, respect the balance at the previous transaction
-  *      responses:
- *          '201':
- *            description: Transfer stored successfully
-*/
-Routers.post('/api/addtransaction', verifyToken, dbCRUD.createTransaction); //, verifyToken);
-
 /** READONE
  * @swagger
  * /api/readone:
@@ -287,8 +192,6 @@ Routers.get('/api/readone', verifyToken, dbCRUD.readOne); //, verifyToken);
  * @swagger
  * /api/isuser:
  *  get:
- *      security: 
- *        - basicAuth: []
  *      summary: (callback function is dal.checkUser(req, res))
  *      tags:
  *          - checkUser
@@ -312,8 +215,6 @@ Routers.get('/api/isuser', verifyToken, dbCRUD.checkUser);
  * @swagger
  * /api/readbankdetails:
  *  get:
- *      security: 
- *        - basicAuth: []
  *      summary: (callback function is dal.readBankDetails(req, res))
  *      tags:
  *          - readBankDetails
@@ -390,7 +291,99 @@ Routers.get('/api/isuser', verifyToken, dbCRUD.checkUser);
  *                               _id: 638357ef6a1caed78d25000b
  */
 Routers.get('/api/readbankdetails', verifyToken, dbCRUD.readBankDetails); //, verifyToken)
-// 
+
+/** CREATE
+ * @swagger
+ * /api/create:
+ *  post:
+ *      summary: (callback function is dal.createUser(req, res))
+ *      tags:
+ *          - createUser
+ *      description: | 
+ *                  - Create a new user (see schema UserSchema). 
+ *                  - Users creation is handled in Firebase. 
+ *                  - Once a user is created there, it is transferred to the backend. 
+ *                  - Users can access their accounts with an email/password combination or via a google account, if using the latter, the user can already exists in the backend
+ *                  
+ *                  This API handles user creation in the backend (not in Firebase). It first checks the user doesn't already exist, in which case, it creates the user by POSTing it
+ *      requestBody:
+ *            required: true
+ *            content:
+ *                application/json:
+ *                   schema: 
+ *                      type: object
+ *                      properties: 
+ *                        user: 
+ *                          type: object
+ *                          properties:
+ *                            name:
+ *                              type: string 
+ *                              description: User name
+ *                            email:
+ *                              type: string 
+ *                              description: User's email
+ *      responses:
+ *          '201':
+ *            description: Account created successfully
+ */
+ Routers.post('/api/create', dbCRUD.createUser);
+
+ /** CREATE
+  * @swagger
+  * /api/addtransaction:
+  *  post:
+  *      summary: (callback function is dal.createTransaction(req, res))
+  *      tags:
+  *          - createTransaction
+  *      description: | 
+  *          Adds a new transaction that can be deposit, withdrawal or transfer. In the latter case, a counterpart is added from the receipt email. In this case, a secondary search is performed to retrieve the destination account for the transfer. A user can only generate a transfer out.
+  *      requestBody:
+  *              required: true
+  *              content:
+  *                  application/json:
+  *                     schema:
+  *                        type: object
+  *                        properties:
+  *                          user: 
+  *                            type: object
+  *                            properties:
+  *                              name:
+  *                                type: string 
+  *                                description: User name
+  *                              email:
+  *                                type: string 
+  *                                description: User's email
+  *                          timestamp: 
+  *                            type: string 
+  *                            description: Current timestamp
+  *                          account_nro: 
+  *                            type: number 
+  *                            description: Account Nro of the corresponding transaction 
+  *                          transaction_type: 
+  *                            type: string
+  *                            description: can be setup, deposit, withdrawal, transferin or transferout
+  *                          transaction_amount: 
+  *                            type: number
+  *                            description: Amount of the transaction
+  *                          transfer_to:
+  *                            type: string
+  *                            description: Email of the receptor account where transfer goes to (if the transaction was a transfer, otherwise, is null)
+  *                          transfer_from:
+  *                            type: string
+  *                            description: Email of the receptor account where transfer goes to (if the transaction was a transfer, otherwise, is null)
+  *                          receipt_email:
+  *                            type: string 
+  *                            description: If a transfer out, this is the destination email where to deposit
+  *                          balance: 
+  *                            type: number
+  *                            description: Balance in the account after correcting by the amount of the transaction, respect the balance at the previous transaction
+  *      responses:
+  *          '201':
+  *            description: Transfer stored successfully
+ */
+ Routers.post('/api/addtransaction', verifyToken, dbCRUD.createTransaction); //, verifyToken);
+ 
+ // 
 Routers.get(/api/)
 // Not yet implemented
 // Routers.post('/api/delete', dbCRUD.delRecord, verifyToken);
