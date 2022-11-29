@@ -114,48 +114,38 @@ async function createTransaction(req, res) {
         transfer_to: req.body.receipt_email,
         balance: req.body.updated_balance,
     };
-    let proceed = true;
-    if (newTransaction.transaction_type === 'transferout') {
-        // Update deposit into receipt user
-        await UserSchema.findOne({email: req.body.receipt_email}, 'history account')
-            .then((doc) => {
-                try {
-                    const receiptTransfer = {timestamp: newTransaction.timestamp,
-                                             transaction_type: 'transferin',
-                                             transfer_from: req.body.user.email,
-                                             account_nro: doc.account[0].account_nro,
-                                             transaction_amount: newTransaction.transaction_amount,
-                                             balance: doc.history.at(-1).balance + newTransaction.transaction_amount
-                                            };
-                    UserSchema.updateOne({email: req.body.receipt_email}, {$push: {history: receiptTransfer}})
-                        .then(() => {
-                            proceed = true})
-                        .catch(err => {
-                            proceed = false})
-                    // proceed = true
-                    }
-                catch {
-                    proceed = false;
+    await UserSchema.findOneAndUpdate({email: req.body.user.email}, { $push: { history: newTransaction } })
+        .then(data => {
+            if (newTransaction.transaction_type === 'transferout') {
+                // Update deposit into receipt user
+                UserSchema.findOne({email: req.body.receipt_email}, 'history account')
+                    .then((doc) => {
+                            const receiptTransfer = {timestamp: newTransaction.timestamp,
+                                                        transaction_type: 'transferin',
+                                                        transfer_from: req.body.user.email,
+                                                        account_nro: doc.account[0].account_nro,
+                                                        transaction_amount: newTransaction.transaction_amount,
+                                                        balance: doc.history.at(-1).balance + newTransaction.transaction_amount
+                                                    };
+                            UserSchema.updateOne({email: req.body.receipt_email}, {$push: {history: receiptTransfer}})
+                                .then(() => {
+                                    return true})
+                                .catch(err => {
+                                    console.log(`Couldn't add money into tranfer's receiver (ERROR: ${err})`);
+                                    return false})
+                    })
+                    .catch (err => {
+                        console.log(`Couldn't find receiver details (ERROR: ${err})`);
+                        return false
+                    })
                 }
-            })
-            .catch (err => {
-                res.status(500).send({message: `Cannot deposit in the receipt account (${err})`});
-                proceed = false;
-            })
-        }
-    if (proceed) {
-        await UserSchema.findOneAndUpdate({email: req.body.user.email}, { $push: { history: newTransaction } })
-            .then(data => {
-                res.status(201).send(data);
-            })
-            .catch(err => {
-                res.status(500).send({
-                    message: `${err}` || "Some error " 
-                });
-            });
-        } else { 
-            console.log('Cannot record the transfer');
-        }
+            console.log('Transaction successfully recorded');
+            res.status(201).send(data);
+        })
+        .catch(err => {
+            console.log(`Couldn't register the transaction (ERROR: ${err})`);
+            res.status(500).send({message: `${err}`});
+        });
     }
 
 /** READONE
