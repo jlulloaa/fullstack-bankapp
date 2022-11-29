@@ -128,11 +128,16 @@ async function createTransaction(req, res) {
                                              balance: doc.history.at(-1).balance + newTransaction.transaction_amount
                                             };
                     UserSchema.updateOne({email: req.body.receipt_email}, {$push: {history: receiptTransfer}})
-                        .then(() => {return true})
-                        .catch(err => {return false})
+                        .then(() => {
+                            console.log('Recording successful');
+                            return true})
+                        .catch(err => {
+                            console.log('There was an error adding the transaction');
+                            return false})
                     proceed = true
                     }
                 catch {
+                    console.log('Could not add the transactions to the receipient');
                     proceed = false;
                 }
             })
