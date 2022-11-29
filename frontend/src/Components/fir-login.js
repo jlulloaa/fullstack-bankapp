@@ -6,8 +6,8 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, deleteUser,
   // setting persistence:
   setPersistence, browserSessionPersistence, 
-  // signInWithRedirect as GoogleSignIn,
-  signInWithPopup as GoogleSignIn,
+  signInWithRedirect as GoogleSignIn,
+  // signInWithPopup as GoogleSignIn,
  signInWithEmailAndPassword, createUserWithEmailAndPassword,
  sendPasswordResetEmail, signOut } from "firebase/auth";
 
@@ -40,7 +40,7 @@ const signInWithGoogle = async () => {
       .then((result) => {
         console.log('Everything allright signing up with google ;) ');
         // Sends everything to the backend to access banking data. That function also should redirects to the correct frontend view (e.g. accountsummary)
-        postUser(result.user, 'google');
+        postUser(result.user);
       })
       .catch((err) => {
         console.error(err);
@@ -60,11 +60,17 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     // Signed in 
     if (!auth.currentUser.displayName) {
       await updateProfile(auth.currentUser, {displayName: name});
-      postUser(auth.currentUser);//, 'EandP');
+      postUser(auth.currentUser)
     } else {
       // Don't have to wait for updateProfile
-      postUser(auth.currentUser);//, 'EandP');
+      postUser(auth.currentUser)
     }
+    Swal.fire({
+      icon: 'success',
+      title: 'Congratulations!',
+      text: 'Welcome to BadBank',
+      footer: ''
+    })
   })
   .catch((error) => {
     Swal.fire({
