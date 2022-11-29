@@ -37,7 +37,7 @@ import { useState, useEffect } from 'react';
 function App() {
 
   const [user, setUser] = useState(null);
-
+  
   useEffect(() => {
     onAuthStateChanged(auth,(user) => {
       if (user) {
@@ -47,7 +47,6 @@ function App() {
       }
     });
   }, [user]);
-
 
   // As learned from this blog (https://dmitripavlutin.com/react-context-and-usecontext/), all components that'll consume the context, have to be wrapped inside the Provider
   return (
@@ -60,7 +59,7 @@ function App() {
           </h1>
         {/* Add the navigation bar */}
         <NavBar />
-        {user ? <div style={{display: 'flex', justifyContent: 'right'}}>{(user.displayName)} ({(user.email)})</div> : <></>}
+        {user ? <div style={{display: 'flex', justifyContent: 'right'}}>{(user.displayName)} ({(user.email)})<br/> {(new Date().toLocaleDateString())} </div> : <></>}
         <hr/>
           <Routes>
             <Route path="/" exact element={<Home/>} />
