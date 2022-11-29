@@ -6,8 +6,8 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, deleteUser,
   // setting persistence:
   setPersistence, browserSessionPersistence, 
-  signInWithRedirect as GoogleSignIn,
-  // signInWithPopup as GoogleSignIn,
+  // signInWithRedirect as GoogleSignIn,
+  signInWithPopup as GoogleSignIn,
  signInWithEmailAndPassword, createUserWithEmailAndPassword,
  sendPasswordResetEmail, signOut } from "firebase/auth";
 

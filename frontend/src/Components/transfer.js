@@ -72,9 +72,9 @@ function Transfer() {
 
     const onClickHandler = () => {
         let now = new Date();
+
         if (!receiptEmail) {
             // Not a valid destination email
-            console.log('hello')
             Swal.fire({
                 icon: 'warning',
                 title: 'No recipient',
@@ -82,6 +82,7 @@ function Transfer() {
                 footer: ''
               })
         }
+        
         const new_transaction = { 
             user: user,
             account_nro: accountNro,
@@ -91,6 +92,7 @@ function Transfer() {
             timestamp: now,
             receipt_email: receiptEmail.label
         }
+
         const transferText = `We are going to transfer ${formatBalance(new_transaction.transact_amount)} to ${new_transaction.receipt_email}. \nAfter this, your balance will be ${formatBalance(new_transaction.updated_balance)}`;
         Swal.fire({
             title: 'Please check and click TRANSFER to proceed',

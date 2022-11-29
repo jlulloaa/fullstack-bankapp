@@ -54,7 +54,7 @@ const postUser = async (user) => {
 // Post a new transaction 
 const postNewTransaction = async (userData) => {
     const header = await createToken(userData.user);
-    const payload = {
+     const payload = {
         user: userData.user,
         account_nro: userData.account_nro,
         transaction_type : userData.transact_type,
@@ -75,7 +75,6 @@ const postNewTransaction = async (userData) => {
 //   Get all data
 const getAllBankingData = async (user) => {
     const header = await createToken(user);
-    console.log(header)
     const payload = {email: user.email}
     try 
         {
