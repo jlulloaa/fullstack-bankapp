@@ -129,15 +129,12 @@ async function createTransaction(req, res) {
                                             };
                     UserSchema.updateOne({email: req.body.receipt_email}, {$push: {history: receiptTransfer}})
                         .then(() => {
-                            console.log('Recording successful');
-                            return true})
+                            proceed = true})
                         .catch(err => {
-                            console.log('There was an error adding the transaction');
-                            return false})
-                    proceed = true
+                            proceed = false})
+                    // proceed = true
                     }
                 catch {
-                    console.log('Could not add the transactions to the receipient');
                     proceed = false;
                 }
             })
@@ -156,6 +153,8 @@ async function createTransaction(req, res) {
                     message: `${err}` || "Some error " 
                 });
             });
+        } else { 
+            console.log('Cannot record the transfer');
         }
     }
 
