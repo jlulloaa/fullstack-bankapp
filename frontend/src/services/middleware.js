@@ -37,7 +37,7 @@ const postUser = async (user) => {
     const inUse = await axios.get(urlCheckUserExists, {params: {email: user.email}, headers: header});
     if (!inUse.data) {
         console.log('Creating new user...');
-        axios.post(urlAddUser, payload)
+        axios.post(urlAddUser, payload, {headers:header})
             .then((res) => {
                 console.log('User successfully created in the backend');
                 return res.data;

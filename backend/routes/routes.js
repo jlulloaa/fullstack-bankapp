@@ -326,7 +326,7 @@ Routers.get('/api/readbankdetails', verifyToken, dbCRUD.readBankDetails); //, ve
  *          '201':
  *            description: Account created successfully
  */
- Routers.post('/api/create', dbCRUD.createUser);
+ Routers.post('/api/create', verifyToken, dbCRUD.createUser);
 
  /** CREATE
   * @swagger
