@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 import { Navigate } from 'react-router-dom';
-import { formatBalance, ToolTips } from './utils';
+import { formatBalance, ToolTips } from '../utils/tools';
 import Card from './card';
-import { auth } from './fir-login';
+import { auth } from '../utils/fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {getAllEmail, postNewTransaction, getBankingDetails} from '../services/middleware';
-import { LoadingPage, Header } from './utils';
+import {getAllEmail, postNewTransaction, getBankingDetails} from '../utils/middleware';
+import { LoadingPage, Header } from '../utils/tools';
 import Swal from 'sweetalert2';
 
 function Transfer() {

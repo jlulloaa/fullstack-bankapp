@@ -2,11 +2,11 @@ import React from 'react';
 import Card from './card';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
-import { ToolTips, Header } from './utils';
+import { ToolTips, Header } from '../utils/tools';
 import { Link } from 'react-router-dom';
-import { auth, registerWithEmailAndPassword, signInWithGoogle } from './fir-login';
+import { auth, registerWithEmailAndPassword, signInWithGoogle } from '../utils/fir-login';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { LoadingPage } from './utils';
+import { LoadingPage } from '../utils/tools';
 import { GoogleLoginButton } from "react-social-login-buttons";
 
 function CreateAccount() {

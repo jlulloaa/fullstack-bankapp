@@ -19,7 +19,7 @@ import Logout from './Components/logout';
 import CreateAccount from './Components/createaccount';
 import AccountSummary from './Components/accountsummary';
 import About from './Components/about';
-import Products from './Components/products';
+import Products from './Components/workinprogress';
 import Reset from './Components/workinprogress';
 import NavBar from './Components/navbar';
 import Footer from './Components/footer';
@@ -28,7 +28,7 @@ import './styles/App.css';
 import { Container } from 'react-bootstrap';
 
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './Components/fir-login';
+import { auth } from './utils/fir-login';
 
 import { useState, useEffect } from 'react';
 

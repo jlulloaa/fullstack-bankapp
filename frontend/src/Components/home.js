@@ -1,10 +1,10 @@
 import Card from './card';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router';
-import { ToolTips, Header, Tagline} from './utils';
-import { auth } from './fir-login';
+import { ToolTips, Header, Tagline} from '../utils/tools';
+import { auth } from '../utils/fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { LoadingPage } from './utils';
+import { LoadingPage } from '../utils/tools';
 import { ButtonGroup } from 'react-bootstrap';
 
 // Rather than using buttons to log in and sign up, use links to these pages and style them as buttons

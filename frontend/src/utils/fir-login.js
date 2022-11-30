@@ -11,7 +11,7 @@ import { GoogleAuthProvider, getAuth, deleteUser,
  signInWithEmailAndPassword, createUserWithEmailAndPassword,
  sendPasswordResetEmail, signOut } from "firebase/auth";
 
-import { postUser } from '../services/middleware';
+import { postUser } from './middleware';
 import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import Swal from 'sweetalert2'
 

@@ -8,7 +8,7 @@ const title = <a href="https://github.com/jlulloaa/fullstack-bankapp" target="_b
     </a>;
 
 const about = <> 
-    Bad Bank is single-page web application (SPA) developed with <a href="https://reactjs.org" target="_blank" rel="noreferrer" >
+    BadBank is single-page web application (SPA) developed with <a href="https://reactjs.org" target="_blank" rel="noreferrer" >
         <span className="badge bg-primary" data-bs-toggle="tooltip" data-bs-placement="left" title="https://reactjs.org"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/270px-React-icon.svg.png" alt='React Icon' height="16"></img> React
         </span> 
     </a> and styled with <a href="https://getbootstrap.com/" target="_blank" rel="noreferrer">

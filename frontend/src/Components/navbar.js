@@ -3,14 +3,14 @@ import {Container, Nav, Navbar} from 'react-bootstrap';
 // In order to style the navigation bar, is better to use NavLink instead of Link (see https://v5.reactrouter.com/web/api/NavLink). But, in order to make the navbar truly collapsable, had to stick with Link (see last comment below)
 import { Link } from 'react-router-dom';
 
-import { LanguageChange } from './utils';
+import { LanguageChange } from '../utils/tools';
 
 // import { useCtx } from './context';
 
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 // const auth = getAuth();
 // let isActive = false;
-import { auth, logOut } from './fir-login';
+import { auth, logOut } from '../utils/fir-login';
 // The 'exact' keyword in the Link to Home ensures that only returns the route if the path is an exact match to the current URL. This is particularly important in the Home path because is only defined by "/", which is also present in all the other paths. See https://staceycarrillo.medium.com/highlight-the-active-navigation-bar-link-using-navlink-in-react-d44f5d8bf997 for details 
 
 // To highlight the active path use NavLink instead of Link as indicated in https://v5.reactrouter.com/web/api/NavLink
@@ -43,6 +43,7 @@ function NavBar() {
                             <Nav.Link data-tip data-for="withdrawTip" className="nav-link" to="/withdraw" as={Link} href="/withdraw" > Withdrawal</Nav.Link>
                             <Nav.Link data-tip data-for="transferTip" className="nav-link" to="/transfer" as={Link} href="/transfer" > Transfer</Nav.Link>
                             <Nav.Link data-tip data-for="allDataTip" className="nav-link" to="/allData" as={Link} href="/allData" > All data</Nav.Link>
+                            <Nav.Link data-tip data-for="wipTip" className="nav-link" to="/products" as={Link} href="/products" > Other Products</Nav.Link>
                             <Nav.Link data-tip data-for="logoutTip"  className="nav-link" to="/logout" as={Link} href="/logout" onClick={handleLogout}> Logout</Nav.Link>
                             </>)
                         }

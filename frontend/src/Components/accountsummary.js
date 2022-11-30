@@ -1,8 +1,8 @@
 import Card from './card';
 import { Link, Navigate } from 'react-router-dom';
-import { ToolTips, Tagline, Header } from './utils';
+import { ToolTips, Tagline, Header } from '../utils/tools';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from './fir-login';
+import { auth } from '../utils/fir-login';
 import { ButtonGroup } from 'react-bootstrap';
 
 // After successfully logged in, display basic information about the user.

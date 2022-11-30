@@ -1,8 +1,8 @@
 import { useEffect} from 'react';
 import Card from './card';
 import { useNavigate } from 'react-router-dom';
-import {auth, logOut } from './fir-login';
-import { LoadingPage } from './utils';
+import {auth, logOut } from '../utils/fir-login';
+import { LoadingPage } from '../utils/tools';
 
 // Rather than using buttons to log in and sign up, use links to these pages and style them as buttons
 function Logout() {

@@ -1,12 +1,12 @@
 import React, {useRef, useState, useEffect} from 'react';
 import { Accordion, Container } from 'react-bootstrap';
 import { Navigate } from 'react-router';
-import { formatBalance, formatDate, ToolTips } from './utils';
+import { formatBalance, formatDate, ToolTips } from '../utils/tools';
 import { useDownloadExcel } from 'react-export-table-to-excel';
-import { auth } from './fir-login';
+import { auth } from '../utils/fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {getAllBankingData} from '../services/middleware';
-import { LoadingPage, Header } from './utils';
+import {getAllBankingData} from '../utils/middleware';
+import { LoadingPage, Header } from '../utils/tools';
 
 function AllData() {
 

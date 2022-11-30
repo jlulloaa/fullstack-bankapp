@@ -3,12 +3,12 @@ import Card from './card';
 import { useFormik } from 'formik';
 import { Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { ToolTips, Header } from './utils';
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from './fir-login';
+import { ToolTips, Header } from '../utils/tools';
+import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../utils/fir-login';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { GoogleLoginButton } from "react-social-login-buttons";
 
-import { LoadingPage } from './utils';
+import { LoadingPage } from '../utils/tools';
 import { ButtonGroup } from 'react-bootstrap';
 
 function Login() {
