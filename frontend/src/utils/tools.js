@@ -74,7 +74,8 @@ const ToolTips = () => {
         noAccountTip: <>Must have an account <br/> to enable this option</>, 
         exportEnabledTip: "Click to download", 
         balanceTip: <>Check your <br/> current balance</>,
-        productsTip: "Check our products"
+        productsTip: "Check our products",
+        ODMtooltip: "Object Data Modelling"
     }
 
     let toolTipFlags = Object.entries(idTip).map((item, idx) => {

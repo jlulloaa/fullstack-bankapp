@@ -43,20 +43,31 @@ This is the final project I am doing as part of the [full-stack web developer ce
 * Folder tree:
 <!-- How to make this folder tree?  -->
 ```
-  .
 ├── LICENSE.md
 ├── README.md
 ├── backend
-│   ├── index.js
-│   ├── mongo_test.js
-│   ├── node_modules
+│   ├── authenticate
+│   │   └── authenticate.js
+│   ├── config
+│   │   ├── config.env
+│   │   └── fir-env.json
+│   ├── controllers
+│   │   └── dal.js
+│   ├── db
+│   │   └── mongodBConn.js
+│   ├── models
+│   │   └── schemas.js
 │   ├── package-lock.json
-│   └── package.json
+│   ├── package.json
+│   ├── routes
+│   │   └── routes.js
+│   └── server.js
 ├── frontend
-│   ├── node_modules
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── public
+│   │   ├── 404.png
+│   │   ├── bank_icon.png
 │   │   ├── bank_logo.png
 │   │   ├── favicon.ico
 │   │   ├── index.html
@@ -69,6 +80,7 @@ This is the final project I am doing as part of the [full-stack web developer ce
 │       ├── App.test.js
 │       ├── Components
 │       │   ├── about.js
+│       │   ├── accountsummary.js
 │       │   ├── alldata.js
 │       │   ├── card.js
 │       │   ├── context.js
@@ -77,10 +89,11 @@ This is the final project I am doing as part of the [full-stack web developer ce
 │       │   ├── footer.js
 │       │   ├── home.js
 │       │   ├── login.js
+│       │   ├── logout.js
 │       │   ├── navbar.js
-│       │   ├── products.js
-│       │   ├── utils.js
-│       │   └── withdraw.js
+│       │   ├── transfer.js
+│       │   ├── withdraw.js
+│       │   └── workinprogress.js
 │       ├── index.js
 │       ├── reportWebVitals.js
 │       ├── setupTests.js
@@ -88,10 +101,9 @@ This is the final project I am doing as part of the [full-stack web developer ce
 │       │   ├── App.css
 │       │   └── index.css
 │       └── utils
-└── howto
-    ├── folder_tree.txt
-    └── media
-        └── WelcomePageFrontEnd.png
+│           ├── fir-login.js
+│           ├── middleware.js
+│           └── tools.js
 ```
 
 # Roadmap of future improvements
