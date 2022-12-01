@@ -6,8 +6,7 @@
  * Contains the functions to query the database through the connection provided by conn.js
  */
  const { UserSchema } = require('../models/schemas');
- const { verifyToken } = require('../authenticate/authenticate');
-
+ 
 /** A good source to learn how to shape the CRUD operations, is the official mongodb tutorials:
 // https://www.mongodb.com/developer/languages/javascript/node-connect-mongodb/
 // https://www.mongodb.com/developer/languages/javascript/node-crud-tutorial/
