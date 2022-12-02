@@ -120,7 +120,6 @@ async function createTransaction(req, res) {
                 UserSchema.findOne({email: req.body.receipt_email}, 'history account')
                     .then((doc) => {
                             const hlen = doc.history.length;
-                            console.log(doc.history.slice(hlen-1)[0]);
                             const receiptTransfer = {timestamp: newTransaction.timestamp,
                                                         transaction_type: 'transferin',
                                                         transfer_from: req.body.user.email,
