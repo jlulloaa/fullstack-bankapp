@@ -119,7 +119,7 @@ async function createTransaction(req, res) {
                 // Update deposit into receipt user
                 UserSchema.findOne({email: req.body.receipt_email}, 'history account')
                     .then((doc) => {
-                            console.log(doc.history)
+                            console.log(doc.history[0])
                             const receiptTransfer = {timestamp: newTransaction.timestamp,
                                                         transaction_type: 'transferin',
                                                         transfer_from: req.body.user.email,
