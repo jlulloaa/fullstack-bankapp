@@ -128,6 +128,7 @@ async function createTransaction(req, res) {
                                                     };
                             UserSchema.updateOne({email: req.body.receipt_email}, {$push: {history: receiptTransfer}})
                                 .then(() => {
+                                    console.log('Transfer recorded into the recipient account')
                                     return true})
                                 .catch(err => {
                                     console.log(`Couldn't add money into tranfer's receiver (ERROR: ${err})`);
@@ -138,7 +139,7 @@ async function createTransaction(req, res) {
                         return false
                     })
                 }
-            console.log('Transaction successfully recorded');
+            console.log('Transaction successfully recorded in the origin account');
             res.status(201).send(data);
         })
         .catch(err => {

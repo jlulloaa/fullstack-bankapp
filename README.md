@@ -28,10 +28,7 @@
 <a href="http://jose-ulloabankingapplication.s3-website-us-east-1.amazonaws.com/" target="_blank"> <img alt="Welcome Page Screenshot" src="howto/media/WelcomePageFrontEnd.png"> </a>
 
 # Description
-*The reasons why this project exists, including the answers to pertinent questions such as whom does it help, why did you build it, and what business or personal problem does it solve*
-
-This is the final project I am doing as part of the [full-stack web developer certificate](https://executive-ed.xpro.mit.edu/professional-certificate-coding) I am pursuing. Unlike the previous excercises, this is a real-life working fullstack application, with the front end a refactoring of the original [BadBank app](http://jose-ulloabankingapplication.s3-website-us-east-1.amazonaws.com/). The  I developed this app as part of the final capstone project of this course. The back end is a work in progress and will be made up of a MongoDB to store the data and Node.js server (*Details to come as I progress with the work*) 
-
+[BadBank](https://jose-ulloafullstackbankingapplication.onrender.com/) is a web application developed with the MERN stack. A [React-based](https://reactjs.org) frontend allows users to interact with the application. An [Express]() web server over [nodejs]() runtime environment enables interaction of the frontend with a cloud-based [mongodb] database. By deploying the [GitHub repository](https://github.com/jlulloaa/fullstack-bankapp) into [render.com](https://render.com/), a continuous integration and deployment (CI/CD)approach is used to ensure users access the latest version of the application.
 
 # How To Run 
 *Installation Guidelines: Clear instructions on how to get your project up and running (e.g., git clone, git pull, npm init).*
