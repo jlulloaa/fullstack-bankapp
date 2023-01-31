@@ -15,7 +15,7 @@ function WIP() {
             txtcolor="white"
             header="Ops!! PAGE NOT FOUND"
             title={title}
-            text="Function requested has not yet been implemented"
+            text="Function requested has not been implemented yet"
             body = {body}
          />
     );
