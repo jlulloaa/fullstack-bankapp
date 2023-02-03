@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  badbankbackend_srv:
+    build:
+      context: ./backend
+    ports:
+      - 10000:10000
+    volumes:
+      - ./backend:/backend
+  badbankfrontend_srv:
+    build: 
+      context: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/frontend
+
+  
+    
